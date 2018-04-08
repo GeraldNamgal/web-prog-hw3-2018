@@ -4,8 +4,16 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
-# TODO:
-#from .models import Item
+# Import models
+from .models import Topping
+from .models import PizzaRegular
+from .models import PizzaSicilian
+from .models import Sub
+from .models import Steak
+from .models import SteakAndCheese
+from .models import Pasta
+from .models import Salad
+from .models import DinnerPlatter
 
 def index(request):
     # If user is not signed in
@@ -17,9 +25,25 @@ def index(request):
         'user': request.user
     }
 
-    # TODO: Get menu items to display
-    #items = Item.objects.all()
-    #context['items'] = items
+    # Get menu items to display
+    toppings = Topping.objects.all()
+    context['toppings'] = toppings
+    pizzaRegulars = PizzaRegular.objects.all()
+    context['pizzaRegulars'] = pizzaRegulars
+    pizzaSicilians = PizzaSicilian.objects.all()
+    context['pizzaSicilians'] = pizzaSicilians
+    subs = Sub.objects.all()
+    context['subs'] = subs
+    steak = Steak.objects.all()
+    context['steak'] = steak
+    steakAndCheese = SteakAndCheese.objects.all()
+    context['steakAndCheese'] = steakAndCheese
+    pastas = Pasta.objects.all()
+    context['pastas'] = pastas
+    salads = Salad.objects.all()
+    context['salads'] = salads
+    dinnerPlatters = DinnerPlatter.objects.all()
+    context['dinnerPlatters'] = dinnerPlatters
 
     # Return index page
     return render(request, "orders/index.html", context)
