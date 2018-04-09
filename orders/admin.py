@@ -1,14 +1,7 @@
 from django.contrib import admin
 
-from .models import Topping
-from .models import PizzaRegular
-from .models import PizzaSicilian
-from .models import Sub
-from .models import Steak
-from .models import SteakAndCheese
-from .models import Pasta
-from .models import Salad
-from .models import DinnerPlatter
+from .models import Topping, PizzaRegular, PizzaSicilian, Sub, Steak, \
+    SteakAndCheese, Pasta, Salad, DinnerPlatter
 
 admin.site.register(Topping)
 admin.site.register(PizzaRegular)

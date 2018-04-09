@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,6 +6,7 @@
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <title>Pizza</title>
     </head>
     <body>
@@ -26,7 +28,7 @@
             </tr>
             {% for pizza in pizzaRegulars %}
                 <tr>
-                    <td>{{ pizza.name }}</td>
+                    <td><a href="{% url 'order' pizza.toClassName pizza.id %}">{{ pizza.name }}</a></td>
                     <td>${{ pizza.priceSmall }}</td>
                     <td>${{ pizza.priceLarge }}</td>
                 </tr>
@@ -42,7 +44,7 @@
             </tr>
             {% for pizza in pizzaSicilians %}
                 <tr>
-                    <td>{{ pizza.name }}</td>
+                    <td><a href="{% url 'order' pizza.toClassName pizza.id %}">{{ pizza.name }}</a></td>
                     <td>${{ pizza.priceSmall }}</td>
                     <td>${{ pizza.priceLarge }}</td>
                 </tr>
@@ -66,7 +68,7 @@
             {% for sub in subs %}
                 {% if sub.name == "Steak + Cheese" %}
                     <tr>
-                        <td>{{ sub.name }}</td>
+                        <td><a href="{% url 'order' sub.toClassName sub.id %}">{{ sub.name }}</a></td>
                         <td>${{ sub.priceSmall }}</td>
                         <td>${{ sub.priceLarge }}</td>
                     </tr>
@@ -87,7 +89,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td>{{ sub.name }}</td>
+                        <td><a href="{% url 'order' sub.toClassName sub.id %}">{{ sub.name }}</a></td>
                         {% if sub.priceSmall == None %}
                             <td></td>
                         {% else %}
@@ -103,7 +105,7 @@
         <table>
             {% for pasta in pastas %}
                 <tr>
-                    <td>{{ pasta.name }}</td>
+                    <td><a href="{% url 'order' pasta.toClassName pasta.id %}">{{ pasta.name }}</a></td>
                     <td>${{ pasta.price }}</td>
                 </tr>
             {% endfor %}
@@ -113,7 +115,7 @@
         <table>
             {% for salad in salads %}
                 <tr>
-                    <td>{{ salad.name }}</td>
+                    <td><a href="{% url 'order' salad.toClassName salad.id %}">{{ salad.name }}</a></td>
                     <td>${{ salad.price }}</td>
                 </tr>
             {% endfor %}
@@ -128,7 +130,7 @@
             </tr>
             {% for dinnerPlatter in dinnerPlatters %}
                 <tr>
-                    <td>{{ dinnerPlatter.name }}</td>
+                    <td><a href="{% url 'order' dinnerPlatter.toClassName dinnerPlatter.id %}">{{ dinnerPlatter.name }}</a></td>
                     <td>${{ dinnerPlatter.priceSmall }}</td>
                     <td>${{ dinnerPlatter.priceLarge }}</td>
                 </tr>

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.apps import apps
 
 # Import models
 from .models import Topping
@@ -86,3 +87,18 @@ def register(request):
 def logoutView(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "Logged out."})
+
+def order(request, className, id):
+    try:
+        model = apps.get_model('orders', className)
+    except model.DoesNotExist:
+        raise Http404("Model does not exist.")
+    try:
+        item = model.objects.get(pk=id)
+    except item.DoesNotExist:
+        raise Http404("Item does not exist.")
+
+    # TODO: remove (for debugging)
+    #print(f"Name of item is {item.name}")
+    #print(f"id is {item.id}")
+    return HttpResponseRedirect(reverse("index"))
