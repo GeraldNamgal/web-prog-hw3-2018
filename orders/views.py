@@ -79,29 +79,39 @@ def register(request):
             user.first_name = firstName
             user.last_name = lastName
             user.save()
-            # TODO: Add user to Customer table
+            # TODO: Add user to Customer table?
             return HttpResponseRedirect(reverse("index"))
 
 def logoutView(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "Logged out."})
 
-def orderDetail(request, className, id):
+def orderDetail(request, className, itemID):
     model = apps.get_model('orders', className)
     try:
-        subitem = model.objects.get(pk=id)
+        itemSub = model.objects.get(pk=itemID)
     except model.DoesNotExist:
         raise Http404("Item does not exist.")
 
     # TODO: remove (for debugging)
-    #print(f"Name of item is {subitem.item.name}")
-    #print(f"id is {subitem.pk}")
+    #print(f"Name of item is {itemSub.item.name}")
+    #print(f"id is {itemSub.pk}")
 
     # Add a form
     orderForm = OrderForm()
     context = {
-        'subitem': subitem,
+        'itemSub': itemSub,
         'orderForm': orderForm
     }
 
     return render(request, "orders/orderDetail.html", context)
+
+def addToCart(request, className, itemID):
+    cart = Cart(request)
+    model = apps.get_model('orders', className)
+    try:
+        itemSub = model.objects.get(pk=itemID)
+    except model.DoesNotExist:
+        raise Http404("Item does not exist.")
+
+    return HttpResponseRedirect(reverse("index"))
