@@ -4,14 +4,14 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.apps import apps
+from .cart import Cart
 
 # Import models
+from .models import Item
 from .models import Topping
 from .models import PizzaRegular
 from .models import PizzaSicilian
 from .models import Sub
-from .models import Steak
-from .models import SteakAndCheese
 from .models import Pasta
 from .models import Salad
 from .models import DinnerPlatter
@@ -35,10 +35,6 @@ def index(request):
     context['pizzaSicilians'] = pizzaSicilians
     subs = Sub.objects.all()
     context['subs'] = subs
-    steak = Steak.objects.all()
-    context['steak'] = steak
-    steakAndCheese = SteakAndCheese.objects.all()
-    context['steakAndCheese'] = steakAndCheese
     pastas = Pasta.objects.all()
     context['pastas'] = pastas
     salads = Salad.objects.all()
@@ -82,6 +78,7 @@ def register(request):
             user.first_name = firstName
             user.last_name = lastName
             user.save()
+            # TODO: Add user to Customer table
             return HttpResponseRedirect(reverse("index"))
 
 def logoutView(request):
@@ -94,11 +91,11 @@ def order(request, className, id):
     except model.DoesNotExist:
         raise Http404("Model does not exist.")
     try:
-        item = model.objects.get(pk=id)
+        itemType = model.objects.get(pk=id)
     except item.DoesNotExist:
         raise Http404("Item does not exist.")
 
     # TODO: remove (for debugging)
-    #print(f"Name of item is {item.name}")
-    #print(f"id is {item.id}")
+    print(f"Name of item is {itemType.item.name}")
+    print(f"id is {itemType.pk}")
     return HttpResponseRedirect(reverse("index"))
