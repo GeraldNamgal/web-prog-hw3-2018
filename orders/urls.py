@@ -7,5 +7,5 @@ urlpatterns = [
     path("login", views.loginView, name="login"),
     path("logout", views.logoutView, name="logout"),
     path("register", views.register, name="register"),
-    path("<str:className>/<int:id>", views.order, name="order")
+    path("<str:className>/<int:id>", views.orderDetail, name="orderDetail")
 ]

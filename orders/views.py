@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.apps import apps
 from .cart import Cart
+from .forms import OrderForm
 
 # Import models
 from .models import Item
@@ -85,17 +86,22 @@ def logoutView(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "Logged out."})
 
-def order(request, className, id):
+def orderDetail(request, className, id):
+    model = apps.get_model('orders', className)
     try:
-        model = apps.get_model('orders', className)
+        subitem = model.objects.get(pk=id)
     except model.DoesNotExist:
-        raise Http404("Model does not exist.")
-    try:
-        itemType = model.objects.get(pk=id)
-    except item.DoesNotExist:
         raise Http404("Item does not exist.")
 
     # TODO: remove (for debugging)
-    print(f"Name of item is {itemType.item.name}")
-    print(f"id is {itemType.pk}")
-    return HttpResponseRedirect(reverse("index"))
+    #print(f"Name of item is {subitem.item.name}")
+    #print(f"id is {subitem.pk}")
+
+    # Add a form
+    orderForm = OrderForm()
+    context = {
+        'subitem': subitem,
+        'orderForm': orderForm
+    }
+
+    return render(request, "orders/orderDetail.html", context)
