@@ -1,6 +1,7 @@
 from decimal import Decimal
 from .models import Item
 
+# TODO: Try cart without 'object'
 class Cart(object):
     def __init__(self, request):
         # Store the current session so it's accessible to other methods
@@ -36,8 +37,9 @@ class Cart(object):
             self.session.modified = True
 
     def __iter__(self):
+        # Get cart dictionary's keys
         product_ids = self.cart.keys()
-        # Add items to the cart
+        # Access corresponding item instances in database
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
             self.cart[str(product.id)]['product'] = product
@@ -54,5 +56,6 @@ class Cart(object):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
     def clear(self):
+        # Empty cart and save to session
         self.session['cart'] = {}
         self.session.modified = True

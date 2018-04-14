@@ -29,7 +29,7 @@
             </tr>
             {% for pizza in pizzaRegulars %}
                 <tr>
-                    <td><a href="{% url 'orderDetail' pizza.toClassName pizza.item.id %}">{{ pizza.item.name }}</a></td>
+                    <td><a href="{% url 'itemDetails' pizza.item.id %}">{{ pizza.item.name }}</a></td>
                     <td>${{ pizza.item.priceSmall }}</td>
                     <td>${{ pizza.item.priceLarge }}</td>
                 </tr>
@@ -45,7 +45,7 @@
             </tr>
             {% for pizza in pizzaSicilians %}
                 <tr>
-                    <td><a href="{% url 'orderDetail' pizza.toClassName pizza.item.id %}">{{ pizza.item.name }}</a></td>
+                    <td><a href="{% url 'itemDetails' pizza.item.id %}">{{ pizza.item.name }}</a></td>
                     <td>${{ pizza.item.priceSmall }}</td>
                     <td>${{ pizza.item.priceLarge }}</td>
                 </tr>
@@ -69,7 +69,7 @@
             {% for sub in subs %}
                 {% if sub.item.name == "Steak + Cheese" %}
                     <tr>
-                        <td><a href="{% url 'orderDetail' sub.toClassName sub.item.id %}">{{ sub.item.name }}</a></td>
+                        <td><a href="{% url 'itemDetails' sub.item.id %}">{{ sub.item.name }}</a></td>
                         <td>${{ sub.item.priceSmall }}</td>
                         <td>${{ sub.item.priceLarge }}</td>
                     </tr>
@@ -90,7 +90,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td><a href="{% url 'orderDetail' sub.toClassName sub.item.id %}">{{ sub.item.name }}</a></td>
+                        <td><a href="{% url 'itemDetails' sub.item.id %}">{{ sub.item.name }}</a></td>
                         {% if sub.item.priceSmall == None %}
                             <td></td>
                         {% else %}
@@ -106,7 +106,7 @@
         <table>
             {% for pasta in pastas %}
                 <tr>
-                    <td><a href="{% url 'orderDetail' pasta.toClassName pasta.item.id %}">{{ pasta.item.name }}</a></td>
+                    <td><a href="{% url 'itemDetails' pasta.item.id %}">{{ pasta.item.name }}</a></td>
                     <td>${{ pasta.item.priceLarge }}</td>
                 </tr>
             {% endfor %}
@@ -116,7 +116,7 @@
         <table>
             {% for salad in salads %}
                 <tr>
-                    <td><a href="{% url 'orderDetail' salad.toClassName salad.item.id %}">{{ salad.item.name }}</a></td>
+                    <td><a href="{% url 'itemDetails' salad.item.id %}">{{ salad.item.name }}</a></td>
                     <td>${{ salad.item.priceLarge }}</td>
                 </tr>
             {% endfor %}
@@ -131,7 +131,7 @@
             </tr>
             {% for dinnerPlatter in dinnerPlatters %}
                 <tr>
-                    <td><a href="{% url 'orderDetail' dinnerPlatter.toClassName dinnerPlatter.item.id %}">{{ dinnerPlatter.item.name }}</a></td>
+                    <td><a href="{% url 'itemDetails' dinnerPlatter.item.id %}">{{ dinnerPlatter.item.name }}</a></td>
                     <td>${{ dinnerPlatter.item.priceSmall }}</td>
                     <td>${{ dinnerPlatter.item.priceLarge }}</td>
                 </tr>

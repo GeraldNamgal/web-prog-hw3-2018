@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Item, Topping, PizzaRegular, PizzaSicilian, Sub, Pasta, Salad, \
-    DinnerPlatter, Category
+    DinnerPlatter, Category, ClassName
 
 admin.site.register(Item)
 admin.site.register(Topping)
@@ -12,3 +12,4 @@ admin.site.register(Pasta)
 admin.site.register(Salad)
 admin.site.register(DinnerPlatter)
 admin.site.register(Category)
+admin.site.register(ClassName)

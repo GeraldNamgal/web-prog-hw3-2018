@@ -7,6 +7,7 @@ urlpatterns = [
     path("login", views.loginView, name="login"),
     path("logout", views.logoutView, name="logout"),
     path("register", views.register, name="register"),
-    path("<str:className>/<int:itemID>", views.orderDetail, name="orderDetail"),
-    path("addToCart/<str:className>/<int:itemID>", views.addToCart, name="addToCart")
+    path("itemDetails/<int:itemID>", views.itemDetails, name="itemDetails"),
+    path("addToCart/<int:itemID>", views.addToCart, name="addToCart"),
+    path("removeFromCart/<int:itemID>", views.removeFromCart, name="removeFromCart")
 ]
