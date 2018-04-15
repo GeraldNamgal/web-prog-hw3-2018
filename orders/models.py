@@ -103,9 +103,16 @@ class DinnerPlatter(models.Model):
     def toClassName(self):
         return self.__class__.__name__
 
+class OrderNumber(models.Model):
+    customerID = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    orderNumber = models.IntegerField(default=1)
+
 class Order(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
     customerID = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="customers")
-    date = models.DateField(null=True)
+    orderNumber = models.IntegerField(null=True, blank=True)
     itemID = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, related_name="orderedItems")
-    quantity = models.IntegerField(null=True)
+    price = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    size = models.CharField(max_length=64, null=True, blank=True)
+    quantity = models.IntegerField(default=1)
+    subtotal = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
+    ordered = models.BooleanField(default=False)
