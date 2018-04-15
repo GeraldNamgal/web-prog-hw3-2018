@@ -5,7 +5,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.apps import apps
 from .cart import Cart
-from .forms import ItemForm
 
 # Import models
 from .models import Item
@@ -87,75 +86,74 @@ def logoutView(request):
     return render(request, "orders/login.html", {"message": "Logged out."})
 
 def itemDetails(request, itemID):
-    # Get item object
+    # Get item's subclass object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-
-    # Get item's subclass object
     model = apps.get_model('orders', item.subclass.name)
     try:
         itemSub = model.objects.get(pk=itemID)
     except model.DoesNotExist:
         raise Http404("Item does not exist.")
 
-    # TODO: remove (for debugging)
-    print(f"Name of item is {itemSub.item.name}")
-    print(f"id is {itemSub.pk}")
-
-    # Add a form
-    itemForm = ItemForm()
     context = {
-        'itemSub': itemSub,
-        'itemForm': itemForm
+        'itemSub': itemSub
     }
+
+    # TODO: remove (for debugging)
+    #print(f"Name of item is {itemSub.item.name}")
+    #print(f"id is {itemSub.pk}")
 
     return render(request, "orders/itemDetails.html", context)
 
 def addToCart(request, itemID):
-    cart = Cart(request)
+    # Get user's choices
+    size = request.POST.get('itemSize')
+    quantity = request.POST.get('quantity')
 
-    # Get item object
+    # Get item's subclass object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-
-    # Get item's subclass object
     model = apps.get_model('orders', item.subclass.name)
     try:
         itemSub = model.objects.get(pk=itemID)
     except model.DoesNotExist:
         raise Http404("Item does not exist.")
 
-    form = ItemForm()
-    if form.is_valid():
-        data = form.cleaned_data
-        cart.add(item=itemSub, quantity=data['quantity'])
+    # Add item to cart
+    cart = Cart(request)
+    cart.add(itemSub, size, quantity)
 
+    # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
 
 def removeFromCart(request, itemID):
-    cart = Cart(request)
-
-    # Get item object
+    # Get item's subclass object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-
-    # Get item's subclass object
     model = apps.get_model('orders', item.subclass.name)
     try:
         itemSub = model.objects.get(pk=itemID)
     except model.DoesNotExist:
         raise Http404("Item does not exist.")
 
+    # Remove item from cart
+    cart = Cart(request)
     cart.remove(itemSub)
 
-    return HttpResponseRedirect(reverse("index"))
+    # Return user to cart page
+    return HttpResponseRedirect(reverse("cartContents"))
 
 def cartContents(request):
     cart = Cart(request)
-    return render(request, 'orders/cart.html', {'cart': cart})
+
+    context = {
+        'cart': cart
+    }
+
+    return render(request, 'orders/cart.html', context)
