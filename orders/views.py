@@ -7,14 +7,8 @@ from django.apps import apps
 from .cart import Cart
 
 # Import models
-from .models import Item
-from .models import Topping
-from .models import PizzaRegular
-from .models import PizzaSicilian
-from .models import Sub
-from .models import Pasta
-from .models import Salad
-from .models import DinnerPlatter
+from .models import Item, Topping, PizzaRegular, PizzaSicilian, Sub, Pasta, \
+    Salad, DinnerPlatter, Customer, Order
 
 def index(request):
     # If user is not signed in
@@ -64,21 +58,30 @@ def register(request):
         return render(request, "orders/register.html", {"message": None})
 
     if request.method == 'POST':
+        # Error check user input
         username = request.POST["username"]
         if username == "":
             return render(request, "orders/register.html", {"message": "Must enter a username."})
         if User.objects.filter(username=username).exists():
             return render(request, "orders/register.html", {"message": "Username already exists."})
+
+        # Process user input
         else:
             firstName = request.POST["firstName"]
             lastName = request.POST["lastName"]
             email = request.POST["emailAddress"]
             password = request.POST["password"]
+
+            # Save user in database
             user = User.objects.create_user(username, email, password)
             user.first_name = firstName
             user.last_name = lastName
             user.save()
-            # TODO: Add user to Customer table?
+
+            # Save user in Customer table
+            customer = Customer(customer=user)
+            customer.save()
+
             return HttpResponseRedirect(reverse("index"))
 
 def logoutView(request):
