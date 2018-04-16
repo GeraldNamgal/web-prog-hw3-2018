@@ -133,7 +133,7 @@ def addToCart(request, itemID):
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
 
-def removeFromCart(request, itemID):
+def removeFromCart(request, size, itemID):
     # Get item's subclass object
     try:
         item = Item.objects.get(id=itemID)
@@ -147,7 +147,7 @@ def removeFromCart(request, itemID):
 
     # Remove item from cart
     cart = Cart(request)
-    cart.remove(itemSub)
+    cart.remove(size, itemSub)
 
     # Return user to cart page
     return HttpResponseRedirect(reverse("cartContents"))

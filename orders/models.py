@@ -104,7 +104,7 @@ class DinnerPlatter(models.Model):
         return self.__class__.__name__
 
 class Customer(models.Model):
-    customer = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    customer = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='customers')
     orderNumber = models.IntegerField(default=0)
 
     def __str__(self):
@@ -117,14 +117,13 @@ class Order(models.Model):
     customerID = models.IntegerField(null=True, blank=True)
     orderNumber = models.IntegerField(null=True, blank=True)
     itemID = models.IntegerField(null=True, blank=True)
+    itemName = models.CharField(max_length=64, null=True, blank=True)
+    itemCategory = models.CharField(max_length=64, null=True, blank=True)
     price = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     size = models.CharField(max_length=64, null=True, blank=True)
     quantity = models.IntegerField(default=1)
     subtotal = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
-    ordered = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.item.name} ({self.item.category}): ${self.item.priceSmall} - ${self.item.priceLarge}'
+    dateTime = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
     def toClassName(self):
         return self.__class__.__name__

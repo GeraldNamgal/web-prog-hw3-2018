@@ -12,8 +12,24 @@
     </head>
     <body>
         <h1>Cart</h1>
+        <table>
+            {% for selection in cart.selections %}
+                <tr>
+                    <td>{{ selection.quantity }}</td>
+                    <td>x {{ selection.size }}</td>
+                    <td>{{ selection.itemName }}</td>
+                    <td>{{ selection.itemCategory }}</td>
+                    <td>@${{ selection.price }} each</td>
+                    <td>= ${{ selection.subtotal }}</td>
+                    <td><a href="{% url 'removeFromCart' selection.size selection.itemID %}">remove</a></td>
+                    <td><a href="{% url 'itemDetails' selection.itemID %}">edit</a></td>
+                </tr>
+            {% endfor %}
+        </table>
 
-        {{ cart.cart }}
+        <div># of items: {{ cart.getNumItems }}</div>
+
+        <div>Total: ${{ cart.getTotalPrice }}</div>
 
         Click <a href="{% url 'index' %}">here</a> to return to menu.
     </body>

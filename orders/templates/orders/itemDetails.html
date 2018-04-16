@@ -13,18 +13,20 @@
     <body>
         <h2>{{ itemSub.item.category }}: {{ itemSub.item.name }}</h2>
 
-        <form action='{% url 'addToCart' itemSub.item.id %}' method="post">
+        <form action='{% url 'addToCart' itemSub.pk %}' method="post">
             {% csrf_token %}
             <label>Price:</label>
-                <input type='radio' name='itemSize' id='small' value='small' checked='checked'/>
+                <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
                     <label for = 'small'>Small ${{ itemSub.item.priceSmall }}</label>
-                <input type='radio' name='itemSize' id='large' value='large'/>
+                <input type='radio' name='itemSize' id='large' value='Large'/>
                     <label for = 'large'>Large ${{ itemSub.item.priceLarge }}</label>
             <br><label>Quantity:</label>
                 <input type='number' name='quantity' min='1' max='100' value=1>
-            <br><input type='submit' value='Add to Cart'>
+            <br><input type='submit' value='Save to Cart'>
         </form>
 
-        Click <a href="{% url 'index' %}">here</a> to return to menu.
+        <div>Click <a href="{% url 'index' %}">here</a> to return to menu.</div>
+        
+        <div>Click <a href="{% url 'cartContents' %}">here</a> to see your cart.</div>
     </body>
 </html>

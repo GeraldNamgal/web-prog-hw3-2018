@@ -1,85 +1,44 @@
 from decimal import Decimal
-from .models import Item
+from .models import Item, Customer, Order
 
 # TODO: Try cart without 'object'
 class Cart(object):
     def __init__(self, request):
-        # Store the current session so it's accessible to other methods
-        self.session = request.session
-
-        # Retrieve a cart from session
-        cart = self.session.get('cart')
-
-        # If no cart exists in session, create one and store it in session
-        if not cart:
-            # Create the cart (a dictionary, will use item ID's as keys)
-            cart = self.session['cart'] = {}
-
-        # Set cart attribute
-        self.cart = cart
+        # Get customer's shopping cart (rows in Order with customer's current number of orders)
+        self.customer = Customer.objects.get(pk=request.user.id)
+        self.selections = Order.objects.filter(customerID=self.customer.pk, orderNumber=self.customer.orderNumber)
 
     def add(self, itemSub, size, quantity):
         # Get price
-        if size == 'small':
+        if size == 'Small':
             price = itemSub.item.priceSmall
         else:
             price = itemSub.item.priceLarge
 
-        # Get item ID (must convert item ID to JSON format, i.e., a string)
-        itemID = str(itemSub.item.id)
-
         # Add item to cart or update it if it's already in the cart
-        if itemID not in self.cart:
-            # TODO: If item only has one size, remove size or make size value empty, i.e., ""
-            # Must add item price to cart in JSON format, i.e., a string
-            self.cart[itemID] = {'size': str(size), 'price': str(price), 'quantity': quantity, }
+        if self.selections.filter(itemID=itemSub.pk, size=size).exists():
+            # TODO: Account for small and large sizes?
+            selection = self.selections.get(itemID=itemSub.pk, size=size)
+            selection.quantity = quantity
+            selection.subtotal = Decimal(quantity) * price
         else:
-            # TODO: If item only has one size, remove size or make size value empty, i.e., ""
-            self.cart[itemID]['size'] = str(size)
-            self.cart[itemID]['price'] = str(price)
-            self.cart[itemID]['quantity'] = quantity
+            # TODO: Account for small and large sizes?
+            selection = Order(customerID=self.customer.pk, orderNumber=self.customer.orderNumber, \
+                itemID=itemSub.pk, price=price, size=size, quantity=quantity, itemName=itemSub.item.name, \
+                itemCategory=itemSub.item.category, subtotal=(Decimal(quantity) * price))
 
-        # Save the cart to session
-        self.session['cart'] = self.cart
-        self.session.modified = True
+        # Save the selection changes
+        selection.save()
 
-    def remove(self, item):
-        # Get item ID (must convert item ID to JSON format, i.e., a string)
-        itemID = str(item.id)
 
+    def remove(self, size, itemSub):
+        # TODO: Account for small and large sizes?
         # If item is in cart, delete it
-        if itemID in self.cart:
-            del self.cart[itemID]
-            # Save the cart to session
-            self.session['cart'] = self.cart
-            self.session.modified = True
-
-    def __iter__(self):
-        # Get cart keys
-        itemIDs = self.cart.keys()
-
-        # Get corresponding item objects in database
-        items = Item.objects.filter(id__in=itemIDs)
-
-        # Add corresponding database item objects to cart
-        for item in items:
-            self.cart[str(item.id)]['item'] = item
-
-        for item in self.cart.values():
-            # Convert prices back to decimal
-            item['price'] = Decimal(item['price'])
-            # Add a total price to each item x quantity
-            item['totalPrice'] = item['price'] * item['quantity']
-            yield item
-
-    def __len__(self):
-        # Return the total number of items in the cart
-        return sum(item['quantity'] for item in self.cart.values())
+        if self.selections.filter(itemID=itemSub.pk, size=size).exists():
+            self.selections.get(itemID=itemSub.pk, size=size).delete()
 
     def getTotalPrice(self):
-        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        return sum(selection.subtotal for selection in self.selections)
 
-    def clear(self):
-        # Empty cart and save to session
-        self.session['cart'] = {}
-        self.session.modified = True
+    def getNumItems(self):
+        return sum(selection.quantity for selection in self.selections)
