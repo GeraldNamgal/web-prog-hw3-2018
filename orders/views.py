@@ -59,8 +59,6 @@ def register(request):
     if request.method == 'POST':
         # Error check user input
         username = request.POST["username"]
-        if username == "":
-            return render(request, "orders/register.html", {"message": "Must enter a username."})
         if User.objects.filter(username=username).exists():
             return render(request, "orders/register.html", {"message": "Username already exists."})
 
@@ -98,18 +96,44 @@ def itemDetails(request, itemID):
         'item': item
     }
 
-    return render(request, "orders/itemDetails.html", context)
+    # Get topping names
+    toppingObjects = Topping.objects.all()
+    toppings = []
+    for object in toppingObjects:
+        toppings.append(object.name)
+    context['toppings'] = toppings
 
-def saveToCart(request, itemID):
-    # Get user's choices
-    size = request.POST.get('itemSize')
-    quantity = request.POST.get('quantity')
+    # TODO: What to do for a Special pizza?
+    # For pizza items, get number of toppings
+    if item.name == '1 topping' or item.name == '1 item':
+        numToppings = 1
+        context['numToppings'] = 1
+    if item.name == '2 toppings' or item.name == '2 items':
+        numToppings = 2
+        context['numToppings'] = 2
+    if item.name == '3 toppings' or item.name == '3 items':
+        numToppings = 3
+        context['numToppings'] = 3
 
+    # Decide which item details page to render (pizza, or sub, etc.)
+    if item.category == Category.objects.get(name="Regular Pizza") or \
+        item.category == Category.objects.get(name="Sicilian Pizza"):
+        return render(request, "orders/itemDetailsPizza.html", context)
+    if item.category == Category.objects.get(name="Subs"):
+        return render(request, "orders/itemDetailsSub.html", context)
+    else:
+        return render(request, "orders/itemDetails.html", context)
+
+def addToCart(request, itemID):
     # Get item's object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
+
+    # Get user's choices
+    size = request.POST.get('itemSize')
+    quantity = request.POST.get('quantity')
 
     # Add item to cart
     cart = Cart(request)
@@ -118,16 +142,10 @@ def saveToCart(request, itemID):
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
 
-def removeFromCart(request, size, itemID):
-    # Get item's object
-    try:
-        item = Item.objects.get(id=itemID)
-    except Item.DoesNotExist:
-        raise Http404("Item does not exist.")
-
+def removeFromCart(request, selectionID):
     # Remove item from cart
     cart = Cart(request)
-    cart.remove(size, item)
+    cart.remove(selectionID)
 
     # Return user to cart page
     return HttpResponseRedirect(reverse("cartContents"))
