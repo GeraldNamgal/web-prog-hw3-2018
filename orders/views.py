@@ -7,8 +7,7 @@ from django.apps import apps
 from .cart import Cart
 
 # Import models
-from .models import Item, Topping, PizzaRegular, PizzaSicilian, Sub, Pasta, \
-    Salad, DinnerPlatter, Customer, Order, Category
+from .models import Item, Topping, Customer, Order, Category
 
 def index(request):
     # If user is not signed in

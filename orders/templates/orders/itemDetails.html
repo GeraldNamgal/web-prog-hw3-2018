@@ -15,11 +15,17 @@
 
         <form action='{% url 'saveToCart' item.pk %}' method="post">
             {% csrf_token %}
-            <label>Price:</label>
-                <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
-                    <label for = 'small'>Small ${{ item.priceSmall }}</label>
-                <input type='radio' name='itemSize' id='large' value='Large'/>
-                    <label for = 'large'>Large ${{ item.priceLarge }}</label>
+            {% if item.priceSmall == None %}
+                <label>Price:</label>
+                    <input type='hidden' name='itemSize' id='large' value='Large'/>
+                ${{ item.priceLarge }}
+            {% else %}
+                <label>Price:</label>
+                    <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
+                        <label for = 'small'>Small ${{ item.priceSmall }}</label>
+                    <input type='radio' name='itemSize' id='large' value='Large'/>
+                        <label for = 'large'>Large ${{ item.priceLarge }}</label>
+            {% endif %}
             <br><label>Quantity:</label>
                 <input type='number' name='quantity' min='1' max='100' value=1>
             <br><input type='submit' value='Save to Cart'>
