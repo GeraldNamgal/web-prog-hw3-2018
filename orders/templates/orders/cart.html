@@ -9,13 +9,15 @@
     <table>
         {% for selection in cart.selections %}
             <tr>
+                <!-- TODO: Debugging with Order ID (remove later) -->
+                <td>{{selection.pk}}.) </td>
                 <td>{{ selection.quantity }}</td>
                 <td>x {{ selection.size }}</td>
                 <td>{{ selection.itemName }}</td>
                 <td>{{ selection.itemCategory }}</td>
                 <td>@${{ selection.price }} each</td>
                 <td>= ${{ selection.subtotal }}</td>
-                <td><a href="{% url 'removeFromCart' selection.id %}">remove</a></td>
+                <td><a href="{% url 'removeFromCart' selection.id %}">REMOVE</a></td>
             </tr>
         {% endfor %}
     </table>
@@ -24,5 +26,5 @@
 
     <div>Total: ${{ cart.getTotalPrice }}</div>
 
-    Click <a href="{% url 'index' %}">here</a> to return to Menu.
+    Click <a href="{% url 'index' %}">HERE</a> to return to the Menu.
 {% endblock %}

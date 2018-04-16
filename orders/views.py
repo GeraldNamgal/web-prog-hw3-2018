@@ -132,19 +132,38 @@ def itemDetails(request, itemID):
         return render(request, "orders/itemDetails.html", context)
 
 def addToCart(request, itemID):
-    # Get item's object
+    # Get item object user selected
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
 
-    # Get user's choices
+    # Get size and quantity user selected
     size = request.POST.get('itemSize')
     quantity = request.POST.get('quantity')
 
+    # If user selected a pizza, get toppings selected
+    toppings = []
+    if item.name == '1 topping' or item.name == '1 item':
+        toppings.append(request.POST.get('topping1'))
+    if item.name == '2 toppings' or item.name == '2 items':
+        toppings.append(request.POST.get('topping1'))
+        toppings.append(request.POST.get('topping2'))
+    if item.name == '3 toppings' or item.name == '3 items':
+        toppings.append(request.POST.get('topping1'))
+        toppings.append(request.POST.get('topping2'))
+        toppings.append(request.POST.get('topping3'))
+
+    # If user selected a sub, get extra options selected (if any)
+    subExtras = {}
+    subExtras['mushrooms'] = request.POST.get('mushrooms')
+    subExtras['greenPeppers'] = request.POST.get('greenPeppers')
+    subExtras['onions'] = request.POST.get('onions')
+    subExtras['extraCheese'] = request.POST.get('extraCheese')
+
     # Add item to cart
     cart = Cart(request)
-    cart.add(item, size, quantity)
+    cart.add(item, size, quantity, toppings, subExtras)
 
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))

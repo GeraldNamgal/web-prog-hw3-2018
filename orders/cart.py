@@ -1,5 +1,5 @@
 from decimal import Decimal
-from .models import Item, Customer, Order
+from .models import Item, Customer, Order, Category
 
 # TODO: Try cart without 'object'
 class Cart(object):
@@ -8,7 +8,7 @@ class Cart(object):
         self.customer = Customer.objects.get(pk=request.user.id)
         self.selections = Order.objects.filter(customerID=self.customer.pk, orderNumber=self.customer.orderNumber)
 
-    def add(self, item, size, quantity):
+    def add(self, item, size, quantity, toppings, subExtras):
         # Determine pricing
         if size == 'Small':
             price = item.priceSmall
@@ -18,6 +18,17 @@ class Cart(object):
         # If item only has one size, change size name to 'Regular'
         if item.priceSmall is None:
             size = 'Regular'
+
+        # If item is a sub, change price for every extra selected
+        if item.category == Category.objects.get(name="Subs"):
+            if subExtras['mushrooms'] == 'yes':
+                price += Decimal(0.50)
+            if subExtras['greenPeppers'] == 'yes':
+                price += Decimal(0.50)
+            if subExtras['onions'] == 'yes':
+                price += Decimal(0.50)
+            if subExtras['extraCheese'] == 'yes':
+                price += Decimal(0.50)
 
         # TODO: Don't need? (maybe in update method):
         # # Add item to cart or update it if it's already in the cart
@@ -33,8 +44,12 @@ class Cart(object):
             itemID=item.pk, price=price, size=size, quantity=quantity, itemName=item.name, \
             itemCategory=item.category, subtotal=(Decimal(quantity) * price))
 
-        # Save the selection changes
+        # Save the selection
         selection.save()
+
+        # If the item was a pizza, create a PizzaOrder sub-instance
+
+        # If the item was a sub, create a SubOrder sub-instance
 
     def remove(self, selectionID):
         # If item is in cart, delete it

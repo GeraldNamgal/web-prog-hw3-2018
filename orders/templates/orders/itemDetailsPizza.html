@@ -4,7 +4,7 @@
     {% if item.name != "Cheese" %}
         {% for name in namesForSelect %}
             <br><label>Topping/Item:</label>
-            <select input type='text' name="{{ name }}" required>
+            <select type='text' name="{{ name }}" required>
                 <option disabled selected value> -- select -- </option>
                 {% for topping in toppings  %}
                     <option value="{{ topping }}">{{ topping }}</option>
