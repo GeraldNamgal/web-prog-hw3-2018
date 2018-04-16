@@ -22,7 +22,6 @@
                     <td>@${{ selection.price }} each</td>
                     <td>= ${{ selection.subtotal }}</td>
                     <td><a href="{% url 'removeFromCart' selection.size selection.itemID %}">remove</a></td>
-                    <td><a href="{% url 'itemDetails' selection.itemID %}">edit</a></td>
                 </tr>
             {% endfor %}
         </table>

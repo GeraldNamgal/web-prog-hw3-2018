@@ -25,11 +25,9 @@ class Item(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     priceSmall = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     priceLarge = models.DecimalField(max_digits=4, decimal_places=2)
-    subclass = models.ForeignKey(ClassName, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.name} ({self.category}): ${self.priceSmall} - ${self.priceLarge}, \
-            has subclass "{self.subclass}"'
+        return f'{self.name} ({self.category}): ${self.priceSmall} - ${self.priceLarge}'
 
     def toClassName(self):
         return self.__class__.__name__

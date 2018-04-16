@@ -8,7 +8,7 @@ from .cart import Cart
 
 # Import models
 from .models import Item, Topping, PizzaRegular, PizzaSicilian, Sub, Pasta, \
-    Salad, DinnerPlatter, Customer, Order
+    Salad, DinnerPlatter, Customer, Order, Category
 
 def index(request):
     # If user is not signed in
@@ -23,17 +23,17 @@ def index(request):
     # Get menu items to display
     toppings = Topping.objects.all()
     context['toppings'] = toppings
-    pizzaRegulars = PizzaRegular.objects.all()
-    context['pizzaRegulars'] = pizzaRegulars
-    pizzaSicilians = PizzaSicilian.objects.all()
-    context['pizzaSicilians'] = pizzaSicilians
-    subs = Sub.objects.all()
+    regularPizzas = Item.objects.filter(category=Category.objects.get(name="Regular Pizza"))
+    context['regularPizzas'] = regularPizzas
+    sicilianPizzas = Item.objects.filter(category=Category.objects.get(name="Sicilian Pizza"))
+    context['sicilianPizzas'] = sicilianPizzas
+    subs = Item.objects.filter(category=Category.objects.get(name="Subs"))
     context['subs'] = subs
-    pastas = Pasta.objects.all()
+    pastas = Item.objects.filter(category=Category.objects.get(name="Pasta"))
     context['pastas'] = pastas
-    salads = Salad.objects.all()
+    salads = Item.objects.filter(category=Category.objects.get(name="Salads"))
     context['salads'] = salads
-    dinnerPlatters = DinnerPlatter.objects.all()
+    dinnerPlatters = Item.objects.filter(category=Category.objects.get(name="Dinner Platters"))
     context['dinnerPlatters'] = dinnerPlatters
 
     # Return index page
@@ -89,65 +89,46 @@ def logoutView(request):
     return render(request, "orders/login.html", {"message": "Logged out."})
 
 def itemDetails(request, itemID):
-    # Get item's subclass object
+    # Get item's object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-    model = apps.get_model('orders', item.subclass.name)
-    try:
-        itemSub = model.objects.get(pk=itemID)
-    except model.DoesNotExist:
-        raise Http404("Item does not exist.")
 
     context = {
-        'itemSub': itemSub
+        'item': item
     }
-
-    # TODO: remove (for debugging)
-    #print(f"Name of item is {itemSub.item.name}")
-    #print(f"id is {itemSub.pk}")
 
     return render(request, "orders/itemDetails.html", context)
 
-def addToCart(request, itemID):
+def saveToCart(request, itemID):
     # Get user's choices
     size = request.POST.get('itemSize')
     quantity = request.POST.get('quantity')
 
-    # Get item's subclass object
+    # Get item's object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-    model = apps.get_model('orders', item.subclass.name)
-    try:
-        itemSub = model.objects.get(pk=itemID)
-    except model.DoesNotExist:
-        raise Http404("Item does not exist.")
 
     # Add item to cart
     cart = Cart(request)
-    cart.add(itemSub, size, quantity)
+    cart.add(item, size, quantity)
 
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
 
 def removeFromCart(request, size, itemID):
-    # Get item's subclass object
+    # Get item's object
     try:
         item = Item.objects.get(id=itemID)
     except Item.DoesNotExist:
         raise Http404("Item does not exist.")
-    model = apps.get_model('orders', item.subclass.name)
-    try:
-        itemSub = model.objects.get(pk=itemID)
-    except model.DoesNotExist:
-        raise Http404("Item does not exist.")
 
     # Remove item from cart
     cart = Cart(request)
-    cart.remove(size, itemSub)
+    cart.remove(size, item)
 
     # Return user to cart page
     return HttpResponseRedirect(reverse("cartContents"))

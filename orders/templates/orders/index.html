@@ -28,11 +28,11 @@
                 <th>Small</th>
                 <th>Large</th>
             </tr>
-            {% for pizza in pizzaRegulars %}
+            {% for pizza in regularPizzas %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' itemID=pizza.item.id %}">{{ pizza.item.name }}</a></td>
-                    <td>${{ pizza.item.priceSmall }}</td>
-                    <td>${{ pizza.item.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
+                    <td>${{ pizza.priceSmall }}</td>
+                    <td>${{ pizza.priceLarge }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -44,11 +44,11 @@
                 <th>Small</th>
                 <th>Large</th>
             </tr>
-            {% for pizza in pizzaSicilians %}
+            {% for pizza in sicilianPizzas %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' itemID=pizza.item.id %}">{{ pizza.item.name }}</a></td>
-                    <td>${{ pizza.item.priceSmall }}</td>
-                    <td>${{ pizza.item.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
+                    <td>${{ pizza.priceSmall }}</td>
+                    <td>${{ pizza.priceLarge }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -68,11 +68,11 @@
                 <th>Large</th>
             </tr>
             {% for sub in subs %}
-                {% if sub.item.name == "Steak + Cheese" %}
+                {% if sub.name == "Steak + Cheese" %}
                     <tr>
-                        <td><a href="{% url 'itemDetails' itemID=sub.item.id %}">{{ sub.item.name }}</a></td>
-                        <td>${{ sub.item.priceSmall }}</td>
-                        <td>${{ sub.item.priceLarge }}</td>
+                        <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
+                        <td>${{ sub.priceSmall }}</td>
+                        <td>${{ sub.priceLarge }}</td>
                     </tr>
                     <tr>
                         <td>+ Mushrooms</td>
@@ -91,13 +91,13 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td><a href="{% url 'itemDetails' itemID=sub.item.id %}">{{ sub.item.name }}</a></td>
-                        {% if sub.item.priceSmall == None %}
+                        <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
+                        {% if sub.priceSmall == None %}
                             <td></td>
                         {% else %}
-                            <td>${{ sub.item.priceSmall }}</td>
+                            <td>${{ sub.priceSmall }}</td>
                         {% endif %}
-                        <td>${{ sub.item.priceLarge }}</td>
+                        <td>${{ sub.priceLarge }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
@@ -112,8 +112,8 @@
         <table>
             {% for pasta in pastas %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' itemID=pasta.item.id %}">{{ pasta.item.name }}</a></td>
-                    <td>${{ pasta.item.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' pasta.id %}">{{ pasta.name }}</a></td>
+                    <td>${{ pasta.priceLarge }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -122,8 +122,8 @@
         <table>
             {% for salad in salads %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' itemID=salad.item.id %}">{{ salad.item.name }}</a></td>
-                    <td>${{ salad.item.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' salad.id %}">{{ salad.name }}</a></td>
+                    <td>${{ salad.priceLarge }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -137,9 +137,9 @@
             </tr>
             {% for dinnerPlatter in dinnerPlatters %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' itemID=dinnerPlatter.item.id %}">{{ dinnerPlatter.item.name }}</a></td>
-                    <td>${{ dinnerPlatter.item.priceSmall }}</td>
-                    <td>${{ dinnerPlatter.item.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' dinnerPlatter.id %}">{{ dinnerPlatter.name }}</a></td>
+                    <td>${{ dinnerPlatter.priceSmall }}</td>
+                    <td>${{ dinnerPlatter.priceLarge }}</td>
                 </tr>
             {% endfor %}
         </table>
