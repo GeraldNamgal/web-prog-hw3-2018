@@ -105,6 +105,7 @@ def itemDetails(request, itemID):
 
     # TODO: What to do for a Special pizza?
     # For pizza items, get number of toppings
+    numToppings = 0
     if item.name == '1 topping' or item.name == '1 item':
         numToppings = 1
         context['numToppings'] = 1
@@ -114,6 +115,12 @@ def itemDetails(request, itemID):
     if item.name == '3 toppings' or item.name == '3 items':
         numToppings = 3
         context['numToppings'] = 3
+
+    # Create dropdown menu names for each topping selector
+    namesForSelect = []
+    for i in range(0, numToppings):
+        namesForSelect.append("topping" + str(i + 1))
+    context['namesForSelect'] = namesForSelect
 
     # Decide which item details page to render (pizza, or sub, etc.)
     if item.category == Category.objects.get(name="Regular Pizza") or \
