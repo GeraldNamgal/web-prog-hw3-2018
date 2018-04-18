@@ -141,19 +141,19 @@ def addToCart(request, itemID):
     # Check that user selected appropriate amount of toppings if chose a pizza
     if item.name == '1 topping' or item.name == '1 item':
         if len(toppings) is not 1:
-            return render(request, 'orders/error.html', \
+            return render(request, 'orders/errorDetails.html', \
                 {'message': 'Please check exactly 1 topping/item.', \
                 'itemID': itemID
             })
     if item.name == '2 toppings' or item.name == '2 items':
         if len(toppings) is not 2:
-            return render(request, 'orders/error.html', \
+            return render(request, 'orders/errorDetails.html', \
                 {'message': 'Please check exactly 2 toppings/items.', \
                 'itemID': itemID
             })
     if item.name == '3 toppings' or item.name == '3 items':
         if len(toppings) is not 3:
-            return render(request, 'orders/error.html', \
+            return render(request, 'orders/errorDetails.html', \
                 {'message': 'Please check exactly 3 toppings/items.', \
                 'itemID': itemID
             })

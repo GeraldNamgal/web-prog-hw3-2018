@@ -39,17 +39,15 @@ class Cart(object):
             itemCategory=item.category.name, subtotal=subtotal)
         selection.save()
 
-        # If the item was a pizza, create a PizzaOrder object that inherits selection
+        # If the item was a pizza, create a corresponding PizzaOrder object
         if item.category.name == 'Regular Pizza' or item.category.name == 'Sicilian Pizza':
-            pizzaSelection = PizzaOrder(order=selection)
-            pizzaSelection.save()
             for topping in toppings:
-                pizzaSelection.toppings.add(Topping.objects.get(name=topping))
-            pizzaSelection.save()
+                pizzaSelection = PizzaOrder(orderID=selection.pk, toppings=topping)
+                pizzaSelection.save()
 
-        # If the item was a sub, create a SubOrder object that inherits selection
+        # If the item was a sub, create a corresponding SubOrder object
         if item.category.name == 'Subs':
-            subSelection = SubOrder(order=selection)
+            subSelection = SubOrder(orderID=selection.pk)
             subSelection.save()
             if subExtras['mushrooms'] == 'yes':
                 subSelection.mushrooms = True
@@ -74,12 +72,13 @@ class Cart(object):
     def getNumItems(self):
         return sum(selection.quantity for selection in self.selections)
 
-    def getToppings(self):
+    # Returns toppings for one pizza
+    def getToppings(self, orderID):
         toppings = []
-        for selection in self.selections:
-            if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza':
-                for toppingObject in PizzaOrder.objects.get(pk=selection.pk).toppings.all():
-                    toppings.append(toppingObject.name)
+        selection = self.selections.get(pk=orderID)
+        if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza':
+            for order in PizzaOrder.objects.filter(orderID=selection.pk):
+                toppings.append(order.toppings)
 
         # DEBUG:
         print(toppings)
