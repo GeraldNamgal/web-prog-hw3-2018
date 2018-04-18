@@ -18,9 +18,10 @@
         {% else %}
             <label>Price:</label>
                 <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
-                    <label for = 'small'>Small ${{ item.priceSmall }}</label>
+                    <!-- 'for' attribute refers to the checkbox's id, not value -->
+                    <label for='small'>Small ${{ item.priceSmall }}</label>
                 <input type='radio' name='itemSize' id='large' value='Large'/>
-                    <label for = 'large'>Large ${{ item.priceLarge }}</label>
+                    <label for='large'>Large ${{ item.priceLarge }}</label>
         {% endif %}
 
         <!-- Create a block for inheritance (for items like pizzas which have extra choices) -->

@@ -2,14 +2,21 @@
 
 {% block extras %}
     {% if item.name != "Cheese" %}
-        {% for name in namesForSelect %}
-            <br><label>Topping/Item:</label>
-            <select type='text' name="{{ name }}" required>
-                <option disabled selected value> -- select -- </option>
-                {% for topping in toppings  %}
-                    <option value="{{ topping }}">{{ topping }}</option>
-                {% endfor %}
-            </select>
-        {% endfor %}
+        <table>
+            <tr>
+                <td>Topping/Item</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>(Choose {{ toppingLimit }}):</td>
+                <td><input type="checkbox" name="{{ toppings.0.name }}" value="yes">{{ toppings.0.name }}</td>
+            </tr>
+            {% for topping in toppings|slice:"1:" %}
+                <tr>
+                    <td></td>
+                    <td><input type="checkbox" name="{{ topping.name }}" value="yes">{{ topping.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 {% endblock %}

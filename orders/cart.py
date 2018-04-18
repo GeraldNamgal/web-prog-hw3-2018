@@ -1,5 +1,5 @@
 from decimal import Decimal
-from .models import Item, Customer, Order, Category
+from .models import Item, Customer, Order, Category, PizzaOrder, SubOrder, Topping
 
 # TODO: Try cart without 'object'
 class Cart(object):
@@ -19,37 +19,49 @@ class Cart(object):
         if item.priceSmall is None:
             size = 'Regular'
 
-        # If item is a sub, change price for every extra selected
-        if item.category == Category.objects.get(name="Subs"):
+        # Calculate subtotal
+        subtotal = Decimal(quantity) * price
+
+        # If item is a sub, change subtotal for every extra selected
+        if item.category.name == "Subs":
             if subExtras['mushrooms'] == 'yes':
-                price += Decimal(0.50)
+                subtotal += Decimal(0.50)
             if subExtras['greenPeppers'] == 'yes':
-                price += Decimal(0.50)
+                subtotal += Decimal(0.50)
             if subExtras['onions'] == 'yes':
-                price += Decimal(0.50)
+                subtotal += Decimal(0.50)
             if subExtras['extraCheese'] == 'yes':
-                price += Decimal(0.50)
+                subtotal += Decimal(0.50)
 
-        # TODO: Don't need? (maybe in update method):
-        # # Add item to cart or update it if it's already in the cart
-        # if self.selections.filter(itemID=item.pk, size=size).exists():
-        #     # TODO: Account for small and large sizes?
-        #     selection = self.selections.get(itemID=item.pk, size=size)
-        #     selection.quantity = quantity
-        #     selection.subtotal = Decimal(quantity) * price
-        #
-        # else:
-
+        # Save the selection to database
         selection = Order(customerID=self.customer.pk, orderNumber=self.customer.orderNumber, \
             itemID=item.pk, price=price, size=size, quantity=quantity, itemName=item.name, \
-            itemCategory=item.category, subtotal=(Decimal(quantity) * price))
-
-        # Save the selection
+            itemCategory=item.category.name, subtotal=subtotal)
         selection.save()
 
-        # If the item was a pizza, create a PizzaOrder sub-instance
+        # If the item was a pizza, create a PizzaOrder object that inherits selection
+        if item.category.name == 'Regular Pizza' or item.category.name == 'Sicilian Pizza':
+            pizzaSelection = PizzaOrder(order=selection)
+            pizzaSelection.save()
+            for topping in toppings:
+                pizzaSelection.toppings.add(Topping.objects.get(name=topping))
+            pizzaSelection.save()
 
-        # If the item was a sub, create a SubOrder sub-instance
+        # If the item was a sub, create a SubOrder object that inherits selection
+        if item.category.name == 'Subs':
+            subSelection = SubOrder(order=selection)
+            subSelection.save()
+            if subExtras['mushrooms'] == 'yes':
+                subSelection.mushrooms = True
+            if subExtras['greenPeppers'] == 'yes':
+                subSelection.greenPeppers = True
+            if subExtras['onions'] == 'yes':
+                subSelection.onions = True
+            if subExtras['extraCheese'] == 'yes':
+                subSelection.extraCheese = True
+            subSelection.save()
+
+    # TODO: Make an update method?
 
     def remove(self, selectionID):
         # If item is in cart, delete it
@@ -61,3 +73,15 @@ class Cart(object):
 
     def getNumItems(self):
         return sum(selection.quantity for selection in self.selections)
+
+    def getToppings(self):
+        toppings = []
+        for selection in self.selections:
+            if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza':
+                for toppingObject in PizzaOrder.objects.get(pk=selection.pk).toppings.all():
+                    toppings.append(toppingObject.name)
+
+        # DEBUG:
+        print(toppings)
+
+        return toppings
