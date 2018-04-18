@@ -96,31 +96,19 @@ def itemDetails(request, itemID):
         'item': item
     }
 
-    # Get topping names
-    toppingObjects = Topping.objects.all()
-    toppings = []
-    for object in toppingObjects:
-        toppings.append(object.name)
+    # Get toppings (for pizza items)
+    toppings = Topping.objects.all()
     context['toppings'] = toppings
 
-    # TODO: What to do for a Special pizza?
-    # For pizza items, get number of toppings
-    numToppings = 0
+    # Get number of toppings (for pizza items)
     if item.name == '1 topping' or item.name == '1 item':
-        numToppings = 1
-        context['numToppings'] = 1
+        context['toppingLimit'] = 1
     if item.name == '2 toppings' or item.name == '2 items':
-        numToppings = 2
-        context['numToppings'] = 2
+        context['toppingLimit'] = 2
     if item.name == '3 toppings' or item.name == '3 items':
-        numToppings = 3
-        context['numToppings'] = 3
+        context['toppingLimit'] = 3
 
-    # Create dropdown menu names for each topping selector
-    namesForSelect = []
-    for i in range(0, numToppings):
-        namesForSelect.append("topping" + str(i + 1))
-    context['namesForSelect'] = namesForSelect
+    # TODO: What to do for Special pizza?
 
     # Decide which item details page to render (pizza, or sub, etc.)
     if item.category == Category.objects.get(name="Regular Pizza") or \
@@ -142,17 +130,24 @@ def addToCart(request, itemID):
     size = request.POST.get('itemSize')
     quantity = request.POST.get('quantity')
 
-    # If user selected a pizza, get toppings selected
-    toppings = []
-    if item.name == '1 topping' or item.name == '1 item':
-        toppings.append(request.POST.get('topping1'))
-    if item.name == '2 toppings' or item.name == '2 items':
-        toppings.append(request.POST.get('topping1'))
-        toppings.append(request.POST.get('topping2'))
-    if item.name == '3 toppings' or item.name == '3 items':
-        toppings.append(request.POST.get('topping1'))
-        toppings.append(request.POST.get('topping2'))
-        toppings.append(request.POST.get('topping3'))
+    # # If user selected a pizza, get toppings selected
+    # toppings = []
+    # if item.category == Category.objects.get(name="Sicilian Pizza") or item.category == Category.objects.get(name="Regular Pizza"):
+    #     toppingObects = Topping.objects.all()
+    #     for object in toppingObjects:
+    #         if request.POST.get(f'{object.pk}') is not None:
+    #             toppings.append(request.POST.get(f'{object.pk}'))
+    #
+    # # If user selected a pizza, check proper amount of toppings was selected
+    # if item.name == '1 topping' or item.name == '1 item':
+    #     if len(toppings) is not 1:
+    #         return render(request, 'orders/error.html', {'message': 'Please check exactly 1 topping.'})
+    # if item.name == '2 toppings' or item.name == '2 items':
+    #     if len(toppings) is not 2:
+    #         return render(request, 'orders/error.html', {'message': 'Please check exactly 2 toppings.'})
+    # if item.name == '3 toppings' or item.name == '3 items':
+    #     if len(toppings) is not 3:
+    #         return render(request, 'orders/error.html', {'message': 'Please check exactly 3 toppings.'})
 
     # If user selected a sub, get extra options selected (if any)
     subExtras = {}
