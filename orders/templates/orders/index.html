@@ -5,153 +5,157 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Hello, {{ user.username }}</h3>
+    <div class="group col-11">
+        <h3>Hello, {{ user.username }}</h3>
 
-    <ul>
-        <li>To see your Cart and/or Check Out, click <a href="{% url 'cartContents' %}">HERE</a>.</li>
-        <li>Click <a href="{% url 'logout' %}">HERE</a> to Log Out.</li>
-    </ul>
+        <ul>
+            <li class="liNav">Click<a href="{% url 'cartContents' %}">&nbsp;HERE&nbsp;</a>to see your Cart and/or Check Out.</li>
+            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</li>
+        </ul>
 
-    <div>Click on a Menu item below to add it to your Cart.</div>
-
-    <br>
-
-    <h1>Our Menu</h1>
+        <div>Click on a Menu item below to add it to your Cart.</div>
+    </div>
 
     <br>
 
-    <h2>Regular Pizza</h2>
-    <table>
-        <tr>
-            <th></th>
-            <th>Small</th>
-            <th>Large</th>
-        </tr>
-        {% for pizza in regularPizzas %}
+    <div class="group col-11">
+        <h1 style="text-decoration:underline;">Our Menu</h1>
+
+        <br>
+
+        <h2>Regular Pizza</h2>
+        <table>
             <tr>
-                <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
-                <td>${{ pizza.priceSmall }}</td>
-                <td>${{ pizza.priceLarge }}</td>
+                <th></th>
+                <th>Small</th>
+                <th>Large</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for pizza in regularPizzas %}
+                <tr>
+                    <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
+                    <td>${{ pizza.priceSmall }}</td>
+                    <td>${{ pizza.priceLarge }}</td>
+                </tr>
+            {% endfor %}
+        </table>
 
-    <br>
+        <br>
 
-    <h2>Sicilian Pizza</h2>
-    <table>
-        <tr>
-            <th></th>
-            <th>Small</th>
-            <th>Large</th>
-        </tr>
-        {% for pizza in sicilianPizzas %}
+        <h2>Sicilian Pizza</h2>
+        <table>
             <tr>
-                <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
-                <td>${{ pizza.priceSmall }}</td>
-                <td>${{ pizza.priceLarge }}</td>
+                <th></th>
+                <th>Small</th>
+                <th>Large</th>
             </tr>
-        {% endfor %}
-    </table>
-
-    <br>
-
-    <h2>Toppings</h2>
-    <ul id="toppings">
-        {% for topping in toppings %}
-            <li>{{ topping.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <br>
-
-    <h2>Subs</h2>
-    <table>
-        <tr>
-            <th></th>
-            <th>Small</th>
-            <th>Large</th>
-        </tr>
-        {% for sub in subs %}
-            {% if sub.name == "Steak + Cheese" %}
+            {% for pizza in sicilianPizzas %}
                 <tr>
-                    <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
-                    <td>${{ sub.priceSmall }}</td>
-                    <td>${{ sub.priceLarge }}</td>
+                    <td><a href="{% url 'itemDetails' pizza.id %}">{{ pizza.name }}</a></td>
+                    <td>${{ pizza.priceSmall }}</td>
+                    <td>${{ pizza.priceLarge }}</td>
                 </tr>
-                <tr>
-                    <td>+ Mushrooms</td>
-                    <td>+0.50</td>
-                    <td>+0.50</td>
-                </tr>
-                <tr>
-                    <td>+ Green Peppers</td>
-                    <td>+0.50</td>
-                    <td>+0.50</td>
-                </tr>
-                <tr>
-                    <td>+ Onions</td>
-                    <td>+0.50</td>
-                    <td>+0.50</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
-                    {% if sub.priceSmall == None %}
-                        <td></td>
-                    {% else %}
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <h2>Toppings</h2>
+        <ul id="toppings">
+            {% for topping in toppings %}
+                <li>{{ topping.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <br>
+
+        <h2>Subs</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th>Small</th>
+                <th>Large</th>
+            </tr>
+            {% for sub in subs %}
+                {% if sub.name == "Steak + Cheese" %}
+                    <tr>
+                        <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
                         <td>${{ sub.priceSmall }}</td>
-                    {% endif %}
-                    <td>${{ sub.priceLarge }}</td>
+                        <td>${{ sub.priceLarge }}</td>
+                    </tr>
+                    <tr>
+                        <td>+ Mushrooms</td>
+                        <td>+0.50</td>
+                        <td>+0.50</td>
+                    </tr>
+                    <tr>
+                        <td>+ Green Peppers</td>
+                        <td>+0.50</td>
+                        <td>+0.50</td>
+                    </tr>
+                    <tr>
+                        <td>+ Onions</td>
+                        <td>+0.50</td>
+                        <td>+0.50</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
+                        {% if sub.priceSmall == None %}
+                            <td></td>
+                        {% else %}
+                            <td>${{ sub.priceSmall }}</td>
+                        {% endif %}
+                        <td>${{ sub.priceLarge }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td>Extra Cheese on any sub</td>
+                <td>+0.50</td>
+                <td>+0.50</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <h2>Pasta</h2>
+        <table>
+            {% for pasta in pastas %}
+                <tr>
+                    <td><a href="{% url 'itemDetails' pasta.id %}">{{ pasta.name }}</a></td>
+                    <td>${{ pasta.priceLarge }}</td>
                 </tr>
-            {% endif %}
-        {% endfor %}
-        <tr>
-            <td>Extra Cheese on any sub</td>
-            <td>+0.50</td>
-            <td>+0.50</td>
-        </tr>
-    </table>
+            {% endfor %}
+        </table>
 
-    <br>
+        <br>
 
-    <h2>Pasta</h2>
-    <table>
-        {% for pasta in pastas %}
+        <h2>Salads</h2>
+        <table>
+            {% for salad in salads %}
+                <tr>
+                    <td><a href="{% url 'itemDetails' salad.id %}">{{ salad.name }}</a></td>
+                    <td>${{ salad.priceLarge }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <h2>Dinner Platters</h2>
+        <table>
             <tr>
-                <td><a href="{% url 'itemDetails' pasta.id %}">{{ pasta.name }}</a></td>
-                <td>${{ pasta.priceLarge }}</td>
+                <th></th>
+                <th>Small</th>
+                <th>Large</th>
             </tr>
-        {% endfor %}
-    </table>
-
-    <br>
-
-    <h2>Salads</h2>
-    <table>
-        {% for salad in salads %}
-            <tr>
-                <td><a href="{% url 'itemDetails' salad.id %}">{{ salad.name }}</a></td>
-                <td>${{ salad.priceLarge }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <br>
-
-    <h2>Dinner Platters</h2>
-    <table>
-        <tr>
-            <th></th>
-            <th>Small</th>
-            <th>Large</th>
-        </tr>
-        {% for dinnerPlatter in dinnerPlatters %}
-            <tr>
-                <td><a href="{% url 'itemDetails' dinnerPlatter.id %}">{{ dinnerPlatter.name }}</a></td>
-                <td>${{ dinnerPlatter.priceSmall }}</td>
-                <td>${{ dinnerPlatter.priceLarge }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+            {% for dinnerPlatter in dinnerPlatters %}
+                <tr>
+                    <td><a href="{% url 'itemDetails' dinnerPlatter.id %}">{{ dinnerPlatter.name }}</a></td>
+                    <td>${{ dinnerPlatter.priceSmall }}</td>
+                    <td>${{ dinnerPlatter.priceLarge }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

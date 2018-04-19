@@ -5,23 +5,25 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="group col-11">
+        <h1>Register</h1>
 
-    {% if message %}
-        <div>
-            {{ message }}
-        </div>
-    {% endif %}
+        {% if message %}
+            <div>
+                {{ message }}
+            </div>
+        {% endif %}
 
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        <input name="firstName" type="text" placeholder="First Name"/>
-        <input name="lastName" type="text" placeholder="Last Name"/>
-        <input name="emailAddress" type="email" placeholder="Email"/><br>
-        <input name="username" type="text" placeholder="Username"/ required>
-        <input name="password" type="password" placeholder="Password"/><br>
-        <input type="submit" value="Register"/>
-    </form>
+        <form class="needsMargin" action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <input name="firstName" type="text" placeholder="First Name"/>
+            <input name="lastName" type="text" placeholder="Last Name"/>
+            <input name="emailAddress" type="email" placeholder="Email"/><br>
+            <input name="username" type="text" placeholder="Username"/ required>
+            <input name="password" type="password" placeholder="Password"/><br>
+            <input class="needsMargin" type="submit" value="Register"/>
+        </form>
 
-    Click <a href="{% url 'login' %}">HERE</a> to log in.
+        Click <a href="{% url 'login' %}">HERE</a> to log in.
+    </div>
 {% endblock %}

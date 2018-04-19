@@ -5,9 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    {{ message }}
+    <div class="group col-11">
+        <h1>Error</h1>
 
-    <br><br>
+        {{ message }}
 
-    Click <a href="{% url 'itemDetails' itemID %}">HERE</a> to return.
+        <br><br>
+
+        Click <a href="{% url 'itemDetails' itemID %}">HERE</a> to return.
+    </div>
 {% endblock %}

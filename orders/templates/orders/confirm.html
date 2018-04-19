@@ -5,28 +5,30 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Confirm</h1>
+    <div class="group col-11">
+        <h1>Confirm</h1>
 
-    <div># ITEMS: {{ numItems }}</div>
+        <div># ITEMS: {{ numItems }}</div>
 
-    <div>TOTAL = ${{ total }}</div>
+        <div>TOTAL = ${{ total }}</div>
 
-    <br>
+        <br>
 
-    <div>
-        Please Confirm that the totals above are correct (this will complete your order).<br>
-        Click Cancel to return to your Shopping Cart.
+        <div>
+            Please Confirm that the totals above are correct (this will complete your order).<br>
+            Click Cancel to return to your Shopping Cart.
+        </div>
+
+        <br>
+
+        <form class="buttonAtBottom" id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Confirm">
+        </form>
+
+        <form class="buttonAtBottom" id="checkoutCancel" action="{% url 'cartContents' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Cancel">
+        </form>
     </div>
-
-    <br>
-
-    <form id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Confirm">
-    </form>
-
-    <form id="checkoutCancel" action="{% url 'cartContents' %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Cancel">
-    </form>
 {% endblock %}

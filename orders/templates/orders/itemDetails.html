@@ -5,41 +5,45 @@
 {% endblock %}
 
 {% block body %}
-    <h2>{{ item.category }}: {{ item.name }}</h2>
+    <div class="group col-11">
+        <h2>{{ item.category }}: {{ item.name }}</h2>
 
-    <form action='{% url 'addToCart' item.pk %}' method="post">
-        {% csrf_token %}
+        <form action='{% url 'addToCart' item.pk %}' method="post">
+            {% csrf_token %}
 
-        <!-- Determine pricing (some items only have one price) -->
-        {% if item.priceSmall == None %}
-            <label>Price:</label>
-            <input type='hidden' name='itemSize' id='large' value='Large'/>
-            ${{ item.priceLarge }}
-        {% else %}
-            <label>Price:</label>
-            <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
-            <!-- 'for' attribute refers to the checkbox's id, not value -->
-            <label for='small'>Small ${{ item.priceSmall }}</label>
-            <input type='radio' name='itemSize' id='large' value='Large'/>
-            <label for='large'>Large ${{ item.priceLarge }}</label>
-        {% endif %}
+            <!-- Determine pricing (some items only have one price) -->
+            {% if item.priceSmall == None %}
+                <label>Price:</label>
+                <input type='hidden' name='itemSize' id='large' value='Large'/>
+                ${{ item.priceLarge }}
+            {% else %}
+                <label>Price:</label>
+                <input type='radio' name='itemSize' id='small' value='Small' checked='checked'/>
+                <!-- 'for' attribute refers to the checkbox's id, not value -->
+                <label for='small'>Small ${{ item.priceSmall }}</label>
+                <input type='radio' name='itemSize' id='large' value='Large'/>
+                <label for='large'>Large ${{ item.priceLarge }}</label>
+            {% endif %}
 
-        <!-- Create a block for inheritance (for items like pizzas which have extra choices) -->
-        {% block extras %}{% endblock %}
+            <!-- Create a block for inheritance (for items like pizzas which have extra choices) -->
+            {% block extras %}{% endblock %}
 
-        <br>
+            <br>
 
-        <label>Quantity:</label>
-        <input type='number' name='quantity' min='1' max='100' value=1>
+            <label>Quantity:</label>
+            <input type='number' name='quantity' min='1' max='100' value=1>
 
-        <br><br>
+            <br><br>
 
-        <input type='submit' value='Add to Cart'>
-    </form>
+            <input class="buttonAtBottom" type='submit' value='Add to Cart'>
+        </form>
+    </div>
 
     <br>
 
-    <div>To return to the Menu and continue ordering, click <a href="{% url 'index' %}">HERE</a>.</div>
-    <div>Click <a href="{% url 'cartContents' %}">HERE</a> to see your Cart and/or Check Out.</div>
-    <div>To Log Out, click <a href="{% url 'logout' %}">HERE</a>.</div>
+    <div class="group col-11">
+        <div class="nav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu and continue ordering.</div>
+        <div class="nav">Click<a href="{% url 'cartContents' %}">&nbsp;HERE&nbsp;</a>to see your Cart and/or Check Out.</div>
+        <div class="nav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</div>
+    </div>
 {% endblock %}

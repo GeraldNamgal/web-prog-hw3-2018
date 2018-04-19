@@ -1,3 +1,15 @@
+body {
+    background-color: green;
+    font-family: serif;
+    margin: 20px;
+}
+
+.group {
+    background-color: white;
+    border:2px solid red;
+    padding: 13px 17px 13px 17px;
+}
+
 #toppings {
     list-style-type: none;
     padding: 0;
@@ -5,4 +17,20 @@
 
 #checkoutConfirm, #checkoutCancel {
     display: inline-block;
+}
+
+.nav {
+    margin: 3.8px 0px 3.8px 0px;
+}
+
+.liNav {
+    padding: 3px 0px 3px 0px;
+}
+
+.buttonAtBottom {
+    margin-bottom: 7px;
+}
+
+.needsMargin {
+    margin: 7px 0px 7px 0px;
 }
