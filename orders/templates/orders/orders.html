@@ -1,0 +1,78 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Orders
+{% endblock %}
+
+{% block body %}
+    <div class="group">
+        <h1>Orders</h1>
+        <ul>
+            <li class="liNav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu.</li>
+            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</li>
+        </ul>
+    </div>
+
+    <br>
+
+    <div class="group">
+        {% if cart.getNumItems != 0 %}
+            <table>
+                {% for selection, toppings, extras in cartItems %}
+                    <tr>
+                        <td>{{ selection.quantity }}</td>
+                        <td>x {{ selection.size }}</td>
+                        <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
+                        <td>@${{ selection.price }} each</td>
+                        <td>= ${{ selection.subtotal }}</td>
+                    </tr>
+
+                    <!-- List toppings (if any) for pizza items -->
+                    {% for topping in toppings %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>&#x25AA; {{ topping }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+
+                    <!-- List extras (if any) for sub items -->
+                    {% for extra in extras %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>+ {{ extra }} $0.50</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+
+                <!-- Insert blank rows -->
+                <tr>
+                    <td><br><br></td>
+                </tr>
+
+                <!-- Display number of items in cart -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td># ITEMS: {{ cart.getNumItems }}</td>
+                </tr>
+
+                <!-- Display total -->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>TOTAL = ${{ cart.getTotalPrice }}</td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

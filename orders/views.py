@@ -172,7 +172,7 @@ def addToCart(request, itemID):
 
     # Add item to cart
     customer = Customer.objects.get(pk=request.user.id)
-    cart = Cart(customer.pk, customer.orderNumber)
+    cart = Cart(customer, customer.orderNumber)
     cart.add(item, size, quantity, toppings, subExtras)
 
     # Return user to the menu
@@ -181,7 +181,7 @@ def addToCart(request, itemID):
 def removeFromCart(request, selectionID):
     # Remove item from cart
     customer = Customer.objects.get(pk=request.user.id)
-    cart = Cart(customer.pk, customer.orderNumber)
+    cart = Cart(customer, customer.orderNumber)
     cart.remove(selectionID)
 
     # Return user to cart page
@@ -189,7 +189,7 @@ def removeFromCart(request, selectionID):
 
 def confirm(request):
     customer = Customer.objects.get(pk=request.user.id)
-    cart = Cart(customer.pk, customer.orderNumber)
+    cart = Cart(customer, customer.orderNumber)
 
     # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
     cartItems = []
@@ -219,7 +219,7 @@ def checkout(request):
 
 def cartContents(request):
     customer = Customer.objects.get(pk=request.user.id)
-    cart = Cart(customer.pk, customer.orderNumber)
+    cart = Cart(customer, customer.orderNumber)
 
     # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
     cartItems = []
@@ -235,18 +235,30 @@ def cartContents(request):
     return render(request, 'orders/cart.html', context)
 
 def orders(request):
-    # 'orders' is essentially a dictionary of carts
-    # orders = {}
-    # counter = 0
-    # customers = Customer.objects.all()
-    # for customer in customers:
-    #     # Get all the customer's orders
-    #     customersOrders = Order.objects.filter(customerID=customer.pk)
-    #     # Put each of their orders (i.e., groups by orderNumber) put it in the dictionary
-    #     for i in range(0, customer.orderNumber):
-    #         oneOrder = customersOrders.filter(orderNumber=i)
+    # 'orders' is essentially a dictionary of carts that were checked out
+    orders = {}
+    counter = 0
 
+    # Put each of the customer's orders (i.e., 'carts') in the dictionary
+    customers = Customer.objects.all()
+    for customer in customers:
+        for i in range(0, customer.orderNumber):
+            cart = Cart(customer, i)
 
+            # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
+            cartItems = []
+            for selection in cart.selections:
+                cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
 
-    # TODO: Return proper orders page
-    return HttpResponseRedirect(reverse("index"))
+            orders[counter] = {
+                'cart': cart,
+                'cartItems': cartItems
+            }
+
+            counter += 1
+
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'orders/orders.html', context)
