@@ -43,11 +43,11 @@ class Order(models.Model):
     dateTime = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
 class PizzaOrder(models.Model):
-    orderID = models.IntegerField()
-    toppings = models.CharField(max_length=64, null=True, blank=True)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, primary_key=True, related_name='pizzaOrders')
+    toppings = models.ManyToManyField(Topping)
 
 class SubOrder(models.Model):
-    orderID = models.IntegerField()
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, primary_key=True, related_name='subOrders')
     extraCheese = models.BooleanField(default=False)
     mushrooms = models.BooleanField(default=False)
     greenPeppers = models.BooleanField(default=False)

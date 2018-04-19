@@ -39,15 +39,17 @@ class Cart(object):
             itemCategory=item.category.name, subtotal=subtotal)
         selection.save()
 
-        # If the item was a pizza, create a corresponding PizzaOrder object
+        # If the item was a pizza, create a PizzaOrder object that inherits selection
         if item.category.name == 'Regular Pizza' or item.category.name == 'Sicilian Pizza':
+            pizzaSelection = PizzaOrder(order=selection)
+            pizzaSelection.save()
             for topping in toppings:
-                pizzaSelection = PizzaOrder(orderID=selection.pk, toppings=topping)
-                pizzaSelection.save()
+                pizzaSelection.toppings.add(Topping.objects.get(name=topping))
+            pizzaSelection.save()
 
-        # If the item was a sub, create a corresponding SubOrder object
+        # If the item was a sub, create a SubOrder object that inherits selection
         if item.category.name == 'Subs':
-            subSelection = SubOrder(orderID=selection.pk)
+            subSelection = SubOrder(order=selection)
             subSelection.save()
             if subExtras['mushrooms'] == 'yes':
                 subSelection.mushrooms = True
@@ -77,6 +79,7 @@ class Cart(object):
         toppings = []
         selection = self.selections.get(pk=orderID)
         if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza':
-            for order in PizzaOrder.objects.filter(orderID=selection.pk):
-                toppings.append(order.toppings)
+            pizzaOrder = PizzaOrder.objects.get(order=selection.pk)
+            for topping in pizzaOrder.toppings.all():
+                toppings.append(topping.name)
         return toppings
