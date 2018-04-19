@@ -2,9 +2,9 @@ from decimal import Decimal
 from .models import Item, Customer, Order, Category, PizzaOrder, SubOrder, Topping
 
 class Cart:
-    def __init__(self, request):
+    def __init__(self, userID):
         # Get customer's shopping cart (rows in Order with customer's current number of orders)
-        self.customer = Customer.objects.get(pk=request.user.id)
+        self.customer = Customer.objects.get(pk=userID)
         self.selections = Order.objects.filter(customerID=self.customer.pk, orderNumber=self.customer.orderNumber)
 
     def add(self, item, size, quantity, toppings, subExtras):

@@ -5,7 +5,7 @@ Web Programming with Python and JavaScript
 To run my program, navigate to the "project3" folder of my files. Then run
 "winpty python manage.py runserver" in the command line if you have Windows. Run
 just "python manage.py runserver" if that doesn't work or if you have another
-operating system. Copy and paste the url that displays into your browser.
+operating system. Copy and paste the url that gets displayed, to your browser.
 
 The superuser name I created for the database is "gerald" and the password is
 "pizza33a".

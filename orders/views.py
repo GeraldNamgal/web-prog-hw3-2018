@@ -171,7 +171,7 @@ def addToCart(request, itemID):
     subExtras['extraCheese'] = request.POST.get('extraCheese')
 
     # Add item to cart
-    cart = Cart(request)
+    cart = Cart(request.user.id)
     cart.add(item, size, quantity, toppings, subExtras)
 
     # Return user to the menu
@@ -179,30 +179,14 @@ def addToCart(request, itemID):
 
 def removeFromCart(request, selectionID):
     # Remove item from cart
-    cart = Cart(request)
+    cart = Cart(request.user.id)
     cart.remove(selectionID)
 
     # Return user to cart page
     return HttpResponseRedirect(reverse("cartContents"))
 
-def cartContents(request):
-    cart = Cart(request)
-
-    # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
-    cartItems = []
-    for selection in cart.selections:
-        cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
-
-    context = {
-        'cartContents': True,
-        'cart': cart,
-        'cartItems': cartItems
-    }
-
-    return render(request, 'orders/cart.html', context)
-
 def confirm(request):
-    cart = Cart(request)
+    cart = Cart(request.user.id)
 
     # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
     cartItems = []
@@ -230,16 +214,32 @@ def checkout(request):
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
 
+def cartContents(request):
+    cart = Cart(request.user.id)
+
+    # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
+    cartItems = []
+    for selection in cart.selections:
+        cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
+
+    context = {
+        'cartContents': True,
+        'cart': cart,
+        'cartItems': cartItems
+    }
+
+    return render(request, 'orders/cart.html', context)
+
 def orders(request):
-    orders = {}
-    counter = 0
-    customers = Customer.objects.all()
-    for customer in customers:
-        customersOrders = Order.objects.filter(customerID=customer.pk)
-        for i in range(0, customer.orderNumber):
-            oneOrder = customersOrders.filter(orderNumber=i)
-
-
-
-    # TODO: Return proper orders page
+    # orders = {}
+    # counter = 0
+    # customers = Customer.objects.all()
+    # for customer in customers:
+    #     customersOrders = Order.objects.filter(customerID=customer.pk)
+    #     for i in range(0, customer.orderNumber):
+    #         oneOrder = customersOrders.filter(orderNumber=i)
+    #
+    #
+    #
+    # # TODO: Return proper orders page
     return HttpResponseRedirect(reverse("index"))
