@@ -25,13 +25,13 @@ class Cart(object):
         # If item is a sub, change subtotal for every extra selected
         if item.category.name == "Subs":
             if subExtras['mushrooms'] == 'yes':
-                subtotal += Decimal(0.50)
+                subtotal += Decimal(0.50) * Decimal(quantity)
             if subExtras['greenPeppers'] == 'yes':
-                subtotal += Decimal(0.50)
+                subtotal += Decimal(0.50) * Decimal(quantity)
             if subExtras['onions'] == 'yes':
-                subtotal += Decimal(0.50)
+                subtotal += Decimal(0.50) * Decimal(quantity)
             if subExtras['extraCheese'] == 'yes':
-                subtotal += Decimal(0.50)
+                subtotal += Decimal(0.50) * Decimal(quantity)
 
         # Save the selection to database
         selection = Order(customerID=self.customer.pk, orderNumber=self.customer.orderNumber, \
