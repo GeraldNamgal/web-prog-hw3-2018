@@ -5,15 +5,14 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Hello, {{ user.first_name }}</h3>
+    <h3>Hello, {{ user.username }}</h3>
 
     <ul>
-        <li>Currently logged in as (username): {{ user.username }}</li>
-        <li>Click <a href="{% url 'cartContents' %}">HERE</a> to see your cart.</li>
-        <li>Click <a href="{% url 'logout' %}">HERE</a> to log out.</li>
+        <li>Click <a href="{% url 'cartContents' %}">HERE</a> to see your Cart and/or Check Out.</li>
+        <li>Click <a href="{% url 'logout' %}">HERE</a> to Log Out.</li>
     </ul>
 
-    <div>Click on a menu item to add it to your cart.</div>
+    <div>Click on a Menu item to add it to your Cart.</div>
 
     <h1>Our Menu</h1>
 
