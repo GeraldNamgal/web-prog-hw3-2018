@@ -13,7 +13,7 @@
                 <td>{{ selection.pk }}.) </td>
                 <td>{{ selection.quantity }}</td>
                 <td>x {{ selection.size }}</td>
-                <td>{{ selection.itemName }} ({{ selection.itemCategory }})</td>
+                <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
                 <td>@${{ selection.price }} each</td>
                 <td>= ${{ selection.subtotal }}</td>
                 <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
@@ -41,7 +41,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>+ {{ extra }} ($0.50)</td>
+                    <td>+ {{ extra }} $0.50</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -61,7 +61,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td># of items: {{ cart.getNumItems }}</td>
+            <td># of ITEMS: {{ cart.getNumItems }}</td>
             <td></td>
         </tr>
 
