@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="group col-11">
+    <div class="group">
         <h1>Cart</h1>
         {% if cart.getNumItems == 0 %}
             <div>You have no items in your Cart.</div>
@@ -18,7 +18,9 @@
                         <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
                         <td>@${{ selection.price }} each</td>
                         <td>= ${{ selection.subtotal }}</td>
-                        <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
+                        {% if cartContents %}
+                            <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
+                        {% endif %}
                     </tr>
 
                     <!-- List toppings (if any) for pizza items -->
@@ -29,7 +31,9 @@
                             <td>&#x25AA; {{ topping }}</td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            {% if cartContents %}
+                                <td></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
 
@@ -41,7 +45,9 @@
                             <td></td>
                             <td>+ {{ extra }} $0.50</td>
                             <td></td>
-                            <td></td>
+                            {% if cartContents %}
+                                <td></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endfor %}
@@ -58,7 +64,9 @@
                     <td></td>
                     <td></td>
                     <td># ITEMS: {{ cart.getNumItems }}</td>
-                    <td></td>
+                    {% if cartContents %}
+                        <td></td>
+                    {% endif %}
                 </tr>
 
                 <!-- Display total -->
@@ -68,37 +76,69 @@
                     <td></td>
                     <td></td>
                     <td>TOTAL = ${{ cart.getTotalPrice }}</td>
-                    <td></td>
+                    {% if cartContents %}
+                        <td></td>
+                    {% endif %}
                 </tr>
 
-                <!-- Insert a blank row -->
-                <tr>
-                    <td><br></td>
-                </tr>
+                {% if cartContents %}
+                    <!-- Insert a blank row -->
+                    <tr>
+                        <td><br></td>
+                    </tr>
 
-                <!-- Add the Check Out button -->
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <form action="{% url 'confirm' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
-                            <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
-                            <input class="buttonAtBottom" type="submit" value="Check Out">
-                        </form>
-                    </td>
-                </tr>
+                    <!-- Add the Check Out button -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <form action="{% url 'confirm' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
+                                <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
+                                <input class="buttonAtBottom" type="submit" value="Check Out">
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
             </table>
         {% endif %}
     </div>
-    <br>
 
-    <div class="group col-11">
-        <div class="nav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu and continue ordering.</div>
-        <div class="nav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</div>
-    </div>
+    {% if cartContents %}
+        <br>
+
+        <div class="group">
+            <div class="nav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu and continue ordering.</div>
+            <div class="nav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</div>
+        </div>
+    {% endif %}
+
+    {% if confirm %}
+        <br>
+
+        <div class="group">
+            <h3>Confirm</h3>
+            <div>
+                Please Confirm that your cart above is correct (this will complete your order).<br>
+                Click Cancel to return to your Shopping Cart.
+            </div>
+
+            <br>
+
+            <form class="buttonAtBottom" id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Confirm">
+            </form>
+
+            <form class="buttonAtBottom" id="checkoutCancel" action="{% url 'cartContents' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Cancel">
+            </form>
+        </div>
+    {% endif %}
+
 {% endblock %}

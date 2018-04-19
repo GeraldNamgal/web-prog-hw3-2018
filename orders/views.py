@@ -193,6 +193,7 @@ def cartContents(request):
         cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
 
     context = {
+        'cartContents': True,
         'cart': cart,
         'cartItems': cartItems
     }
@@ -200,15 +201,20 @@ def cartContents(request):
     return render(request, 'orders/cart.html', context)
 
 def confirm(request):
-    numItems = request.POST.get('numItems')
-    total = request.POST.get('total')
+    cart = Cart(request)
+
+    # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
+    cartItems = []
+    for selection in cart.selections:
+        cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
 
     context = {
-        'numItems': numItems,
-        'total': total
+        'confirm': True,
+        'cart': cart,
+        'cartItems': cartItems
     }
 
-    return render(request, 'orders/confirm.html', context)
+    return render(request, 'orders/cart.html', context)
 
 def checkout(request):
     # Increment the customer's order number
