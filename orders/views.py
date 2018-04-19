@@ -157,6 +157,12 @@ def addToCart(request, itemID):
                 {'message': 'Please check exactly 3 toppings/items.', \
                 'itemID': itemID
             })
+    if item.name == 'Special':
+        if not (4 <= len(toppings) <= 5):
+            return render(request, 'orders/errorDetails.html', \
+                {'message': 'Please check exactly 4 or 5 toppings/items.', \
+                'itemID': itemID
+            })
 
     # If user selected a sub, get extra options selected (if any)
     subExtras = {}

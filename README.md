@@ -12,3 +12,5 @@ field for the price, which is why I made the "priceSmall" field in the Item mode
 optional since a few items only have one price. I would explain to administrators
 that when adding items to the menu for items with one price, leave the "priceSmall"
 field blank and put the price for such items in the "priceLarge" field.
+
+I defined my Special Pizza to be one with 4 or 5 toppings.
