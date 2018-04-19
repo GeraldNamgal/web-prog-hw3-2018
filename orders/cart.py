@@ -79,8 +79,4 @@ class Cart(object):
         if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza':
             for order in PizzaOrder.objects.filter(orderID=selection.pk):
                 toppings.append(order.toppings)
-
-        # DEBUG:
-        print(toppings)
-
         return toppings
