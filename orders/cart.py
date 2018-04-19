@@ -2,10 +2,11 @@ from decimal import Decimal
 from .models import Item, Customer, Order, Category, PizzaOrder, SubOrder, Topping
 
 class Cart:
-    def __init__(self, userID):
+    def __init__(self, userID, orderNumber):
         # Get customer's shopping cart (rows in Order with customer's current number of orders)
         self.customer = Customer.objects.get(pk=userID)
-        self.selections = Order.objects.filter(customerID=self.customer.pk, orderNumber=self.customer.orderNumber)
+        self.selections = Order.objects.filter(customerID=self.customer.pk, orderNumber=orderNumber)
+        self.orderNumber = orderNumber
 
     def add(self, item, size, quantity, toppings, subExtras):
         # Determine pricing
@@ -33,7 +34,7 @@ class Cart:
                 subtotal += Decimal(0.50) * Decimal(quantity)
 
         # Save the selection to database
-        selection = Order(customerID=self.customer.pk, orderNumber=self.customer.orderNumber, \
+        selection = Order(customerID=self.customer.pk, orderNumber=self.orderNumber, \
             itemID=item.pk, price=price, size=size, quantity=quantity, itemName=item.name, \
             itemCategory=item.category.name, subtotal=subtotal)
         selection.save()
