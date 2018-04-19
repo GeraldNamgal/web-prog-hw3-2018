@@ -7,43 +7,81 @@
 {% block body %}
     <h1>Cart</h1>
     <table>
-        {% for selection, toppings in cartItems %}
+        {% for selection, toppings, extras in cartItems %}
             <tr>
                 <!-- DEBUG: Debugging with Order ID (remove later) -->
                 <td>{{ selection.pk }}.) </td>
                 <td>{{ selection.quantity }}</td>
                 <td>x {{ selection.size }}</td>
-                <td>{{ selection.itemName }}</td>
-                <td>{{ selection.itemCategory }}</td>
+                <td>{{ selection.itemName }} ({{ selection.itemCategory }})</td>
                 <td>@${{ selection.price }} each</td>
                 <td>= ${{ selection.subtotal }}</td>
                 <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
             </tr>
 
-            <!-- List toppings (if any) -->
+            <!-- List toppings (if any) for pizza items -->
             {% for topping in toppings %}
                 <tr>
                     <!-- DEBUG: Remove data when remove id above -->
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>- {{ topping }}</td>
+                    <td>&#x25AA; {{ topping }}</td>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
             {% endfor %}
 
-            <!-- TODO: List extras if item was a sub -->
-            <!-- {% if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza' %}
-
-            {% endif %} -->
+            <!-- List extras (if any) for sub items -->
+            {% for extra in extras %}
+                <tr>
+                    <!-- DEBUG: Remove data when remove id above -->
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>+ {{ extra }} ($0.50)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
         {% endfor %}
+
+        <!-- Insert blank rows -->
+        <tr>
+            <td><br><br></td>
+        </tr>
+
+        <!-- Display number of items in cart -->
+        <tr>
+            <!-- DEBUG: Remove data when remove id above -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td># of items: {{ cart.getNumItems }}</td>
+            <td></td>
+        </tr>
+
+        <!-- Insert a blank row -->
+        <tr>
+            <td><br></td>
+        </tr>
+
+        <!-- Display total -->
+        <tr>
+            <!-- DEBUG: Remove data when remove id above -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>TOTAL = ${{ cart.getTotalPrice }}</td>
+            <td></td>
+        </tr>
     </table>
-
-    <div># of items: {{ cart.getNumItems }}</div>
-
-    <div>Total: ${{ cart.getTotalPrice }}</div>
 
     Click <a href="{% url 'index' %}">HERE</a> to return to the Menu.
 {% endblock %}

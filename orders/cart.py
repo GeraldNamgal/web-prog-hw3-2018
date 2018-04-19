@@ -83,3 +83,19 @@ class Cart(object):
             for topping in pizzaOrder.toppings.all():
                 toppings.append(topping.name)
         return toppings
+
+    # Returns extras for one sub
+    def getExtras(self, orderID):
+        extras = []
+        selection = self.selections.get(pk=orderID)
+        if selection.itemCategory == 'Subs':
+            subOrder = SubOrder.objects.get(order=selection.pk)
+            if subOrder.mushrooms == True:
+                extras.append('Mushrooms')
+            if subOrder.greenPeppers == True:
+                extras.append('Green Peppers')
+            if subOrder.onions == True:
+                extras.append('Onions')
+            if subOrder.extraCheese == True:
+                extras.append('Extra Cheese')
+        return extras
