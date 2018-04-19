@@ -183,8 +183,14 @@ def removeFromCart(request, selectionID):
 def cartContents(request):
     cart = Cart(request)
 
+    # TODO: Create tuple list; each tuple like ([user's selection], [toppings associated with the selection (if any)])
+    cartItems = []
+    for selection in cart.selections:
+        cartItems.append((selection, cart.getToppings(selection.pk)))
+
     context = {
-        'cart': cart
+        'cart': cart,
+        'cartItems': cartItems
     }
 
     return render(request, 'orders/cart.html', context)

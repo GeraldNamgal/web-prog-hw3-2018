@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Cart</h1>
     <table>
-        {% for selection in cart.selections %}
+        {% for selection, toppings in cartItems %}
             <tr>
                 <!-- DEBUG: Debugging with Order ID (remove later) -->
                 <td>{{ selection.pk }}.) </td>
@@ -20,21 +20,20 @@
                 <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
             </tr>
 
-            <!-- TODO: List toppings if item was a pizza -->
-            {% if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza' %}
-                {% for topping in cart.getToppings %}
-                    <tr>
-                        <!-- DEBUG: Remove data when remove id above -->
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{ topping }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
+            <!-- List toppings (if any) -->
+            {% for topping in toppings %}
+                <tr>
+                    <!-- DEBUG: Remove data when remove id above -->
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>- {{ topping }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+
             <!-- TODO: List extras if item was a sub -->
             <!-- {% if selection.itemCategory == 'Regular Pizza' or selection.itemCategory == 'Sicilian Pizza' %}
 
