@@ -6,7 +6,12 @@
 
 {% block body %}
     <div class="group">
-        <h1>Cart</h1>
+        {% if confirm %}
+            <h1>Confirm</h1>
+        {% else %}
+            <h1>Cart</h1>
+        {% endif %}
+
         {% if cart.getNumItems == 0 %}
             <div>You have no items in your Cart.</div>
         {% else %}
@@ -121,9 +126,8 @@
         <br>
 
         <div class="group">
-            <h3>Confirm</h3>
             <div>
-                Please Confirm that your cart above is correct (this will complete your order).<br>
+                Please Confirm that your selections above are correct (this will complete your order).<br>
                 Click Cancel to return to your Shopping Cart.
             </div>
 

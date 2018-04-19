@@ -2,7 +2,13 @@
 
 Web Programming with Python and JavaScript
 
-The superuser name I created was "gerald" and the password is "pizza33a".
+To run my program, navigate to the "project3" folder of my files. Then run
+"winpty python manage.py runserver" in the command line if you have Windows. Run
+just "python manage.py runserver" if that doesn't work or if you have another
+operating system.
+
+The superuser name I created for the database is "gerald" and the password is
+"pizza33a".
 
 I put the menu on my "index.html" page (i.e., the main page) because there is no
 other relevant information to display (at least for purposes of the project) that's
