@@ -1,0 +1,28 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+    Confirm
+{% endblock %}
+
+{% block body %}
+    <h1>Confirm</h1>
+
+    <div># ITEMS: {{ numItems }}</div>
+
+    <div>TOTAL = ${{ total }}</div>
+
+    <div>
+        Please confirm that the totals above are correct to complete your order.<br>
+        Click cancel to return to your shopping cart.
+    </div>
+
+    <form action="{% url 'checkout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirm">
+    </form>
+
+    <form action="{% url 'cartContents' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Cancel">
+    </form>
+{% endblock %}

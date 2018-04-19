@@ -64,7 +64,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td># of ITEMS: {{ cart.getNumItems }}</td>
+                <td># ITEMS: {{ cart.getNumItems }}</td>
                 <td></td>
             </tr>
 
@@ -85,6 +85,14 @@
                 <td></td>
             </tr>
         </table>
+
+        <!-- TODO: Form/button for checking out -->
+        <form action="{% url 'confirm' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
+            <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
+            <input type="submit" value="Check Out">
+        </form>
     {% endif %}
 
     <div>Click <a href="{% url 'index' %}">HERE</a> to return to the Menu.</div>

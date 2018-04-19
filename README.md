@@ -14,3 +14,12 @@ that when adding items to the menu for items with one price, leave the "priceSma
 field blank and put the price for such items in the "priceLarge" field.
 
 I defined my Special Pizza to be one with 4 or 5 toppings.
+
+I chose to have a "ManyToManyField" between a Pizza Order model and a Topping
+model. One of the reasons I chose to do this is because Django implements
+many-to-many as a set relation so I don't have to worry about users adding the
+same topping to the pizza over and over again. It also enforces the relationship
+between a set of toppings and pizzas that administrators created; I don't have to
+worry about anything being unaccounted for. It also automates the process of
+checking whether a deletion or addition in one happened in one and/or the other
+and handles the table consequences and such of situations like these for me.

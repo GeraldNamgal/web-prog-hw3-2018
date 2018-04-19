@@ -108,8 +108,6 @@ def itemDetails(request, itemID):
     if item.name == '3 toppings' or item.name == '3 items':
         context['toppingLimit'] = 3
 
-    # TODO: What to do for special pizza?
-
     # Decide which item details page to render (pizza, or sub, etc.)
     if item.category.name == "Regular Pizza" or item.category.name == "Sicilian Pizza":
         return render(request, "orders/itemDetailsPizza.html", context)
@@ -200,3 +198,24 @@ def cartContents(request):
     }
 
     return render(request, 'orders/cart.html', context)
+
+def confirm(request):
+    numItems = request.POST.get('numItems')
+    total = request.POST.get('total')
+
+    context = {
+        'numItems': numItems,
+        'total': total
+    }
+
+    return render(request, 'orders/confirm.html', context)
+
+def checkout(request):
+    # Increment the customer's order number
+    customer = Customer.objects.get(pk=request.user.id)
+    customer.orderNumber += 1
+    customer.save()
+
+    # TODO: Decide where to return user to
+    # Return user to the menu
+    return HttpResponseRedirect(reverse("index"))
