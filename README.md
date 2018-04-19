@@ -2,6 +2,8 @@
 
 Web Programming with Python and JavaScript
 
+The superuser name I created was "gerald" and the password is "pizza33a".
+
 I put the menu on my "index.html" page (i.e., the main page) because there is no
 other relevant information to display (at least for purposes of the project) that's
 more important. If I were actually an owner of Pinnochio's, my main page might
@@ -22,4 +24,6 @@ same topping to the pizza over and over again. It also enforces the relationship
 between a set of toppings and pizzas that administrators created; I don't have to
 worry about anything being unaccounted for. It also automates the process of
 checking whether a deletion or addition in one happened in one and/or the other
-and handles the table consequences and such of situations like these for me.
+and handles the table consequences and such of situations like these for me. That
+is, the "ManyToManyField" will allow me to associate a topping with multiple
+pizzas and each pizza with multiple toppings.

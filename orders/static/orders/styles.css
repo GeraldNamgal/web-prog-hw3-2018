@@ -2,3 +2,7 @@
     list-style-type: none;
     padding: 0;
 }
+
+#checkoutConfirm, #checkoutCancel {
+    display: inline-block;
+}

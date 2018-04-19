@@ -8,13 +8,17 @@
     <h3>Hello, {{ user.username }}</h3>
 
     <ul>
-        <li>Click <a href="{% url 'cartContents' %}">HERE</a> to see your Cart and/or Check Out.</li>
+        <li>To see your Cart and/or Check Out, click <a href="{% url 'cartContents' %}">HERE</a>.</li>
         <li>Click <a href="{% url 'logout' %}">HERE</a> to Log Out.</li>
     </ul>
 
-    <div>Click on a Menu item to add it to your Cart.</div>
+    <div>Click on a Menu item below to add it to your Cart.</div>
+
+    <br>
 
     <h1>Our Menu</h1>
+
+    <br>
 
     <h2>Regular Pizza</h2>
     <table>
@@ -32,6 +36,8 @@
         {% endfor %}
     </table>
 
+    <br>
+
     <h2>Sicilian Pizza</h2>
     <table>
         <tr>
@@ -48,12 +54,16 @@
         {% endfor %}
     </table>
 
+    <br>
+
     <h2>Toppings</h2>
     <ul id="toppings">
         {% for topping in toppings %}
             <li>{{ topping.name }}</li>
         {% endfor %}
     </ul>
+
+    <br>
 
     <h2>Subs</h2>
     <table>
@@ -103,6 +113,8 @@
         </tr>
     </table>
 
+    <br>
+
     <h2>Pasta</h2>
     <table>
         {% for pasta in pastas %}
@@ -113,6 +125,8 @@
         {% endfor %}
     </table>
 
+    <br>
+
     <h2>Salads</h2>
     <table>
         {% for salad in salads %}
@@ -122,6 +136,8 @@
             </tr>
         {% endfor %}
     </table>
+
+    <br>
 
     <h2>Dinner Platters</h2>
     <table>

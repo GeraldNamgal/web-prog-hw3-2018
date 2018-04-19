@@ -11,17 +11,21 @@
 
     <div>TOTAL = ${{ total }}</div>
 
+    <br>
+
     <div>
-        Please confirm that the totals above are correct to complete your order.<br>
-        Click cancel to return to your shopping cart.
+        Please Confirm that the totals above are correct (this will complete your order).<br>
+        Click Cancel to return to your Shopping Cart.
     </div>
 
-    <form action="{% url 'checkout' %}" method="post">
+    <br>
+
+    <form id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
         {% csrf_token %}
         <input type="submit" value="Confirm">
     </form>
 
-    <form action="{% url 'cartContents' %}" method="post">
+    <form id="checkoutCancel" action="{% url 'cartContents' %}" method="post">
         {% csrf_token %}
         <input type="submit" value="Cancel">
     </form>

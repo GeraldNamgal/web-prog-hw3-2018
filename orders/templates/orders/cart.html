@@ -12,8 +12,6 @@
         <table>
             {% for selection, toppings, extras in cartItems %}
                 <tr>
-                    <!-- DEBUG: Debugging with Order ID (remove later) -->
-                    <td>{{ selection.pk }}.) </td>
                     <td>{{ selection.quantity }}</td>
                     <td>x {{ selection.size }}</td>
                     <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
@@ -25,8 +23,6 @@
                 <!-- List toppings (if any) for pizza items -->
                 {% for topping in toppings %}
                     <tr>
-                        <!-- DEBUG: Remove data when remove id above -->
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td>&#x25AA; {{ topping }}</td>
@@ -39,8 +35,6 @@
                 <!-- List extras (if any) for sub items -->
                 {% for extra in extras %}
                     <tr>
-                        <!-- DEBUG: Remove data when remove id above -->
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -58,8 +52,6 @@
 
             <!-- Display number of items in cart -->
             <tr>
-                <!-- DEBUG: Remove data when remove id above -->
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -75,8 +67,6 @@
 
             <!-- Display total -->
             <tr>
-                <!-- DEBUG: Remove data when remove id above -->
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -84,17 +74,33 @@
                 <td>TOTAL = ${{ cart.getTotalPrice }}</td>
                 <td></td>
             </tr>
-        </table>
 
-        <!-- TODO: Form/button for checking out -->
-        <form action="{% url 'confirm' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
-            <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
-            <input type="submit" value="Check Out">
-        </form>
+            <!-- Insert a blank row -->
+            <tr>
+                <td><br></td>
+            </tr>
+
+            <!-- Add the Check Out button -->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <form action="{% url 'confirm' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
+                        <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
+                        <input type="submit" value="Check Out">
+                    </form>
+                </td>
+            </tr>
+        </table>
     {% endif %}
 
-    <div>Click <a href="{% url 'index' %}">HERE</a> to return to the Menu.</div>
-    <div>Click <a href="{% url 'logout' %}">HERE</a> to Log Out.</div>
+    <br>
+
+    <div>Click <a href="{% url 'index' %}">HERE</a> to return to the Menu and continue ordering.</div>
+    <div>To Log Out, click <a href="{% url 'logout' %}">HERE</a>.</div>
 {% endblock %}
