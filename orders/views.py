@@ -235,11 +235,10 @@ def cartContents(request):
     return render(request, 'orders/cart.html', context)
 
 def orders(request):
-    # 'orders' is essentially a dictionary of carts that were checked out
-    orders = {}
-    counter = 0
+    # The orders is essentially a list of carts that were checked out
+    orders = []
 
-    # Put each of the customer's orders (i.e., 'carts') in the dictionary
+    # Put each of the customer's orders (i.e., 'carts') in the list
     customers = Customer.objects.all()
     for customer in customers:
         for i in range(0, customer.orderNumber):
@@ -250,12 +249,11 @@ def orders(request):
             for selection in cart.selections:
                 cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
 
-            orders[counter] = {
-                'cart': cart,
-                'cartItems': cartItems
-            }
+            # Orders is a list of tuples with cart information
+            orders.append((cart, cartItems))
 
-            counter += 1
+    # DEBUG:
+    print(orders)
 
     context = {
         'orders': orders
