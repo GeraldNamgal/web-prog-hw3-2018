@@ -1,7 +1,7 @@
 from decimal import Decimal
 from .models import Item, Customer, Order, Category, PizzaOrder, SubOrder, Topping
 
-class Cart():
+class Cart:
     def __init__(self, request):
         # Get customer's shopping cart (rows in Order with customer's current number of orders)
         self.customer = Customer.objects.get(pk=request.user.id)

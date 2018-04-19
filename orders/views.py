@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.apps import apps
 from .cart import Cart
+from datetime import datetime
 
 # Import models
 from .models import Item, Topping, Customer, Order, Category
@@ -217,11 +218,28 @@ def confirm(request):
     return render(request, 'orders/cart.html', context)
 
 def checkout(request):
-    # Increment the customer's order number
+    # Increment the customer's order number and add a timestamp to their order
     customer = Customer.objects.get(pk=request.user.id)
+    customersOrders = Order.objects.filter(customerID=customer.pk, orderNumber=customer.orderNumber)
+    for order in customersOrders:
+        order.dateTime = datetime.now()
+        order.save()
     customer.orderNumber += 1
     customer.save()
 
-    # TODO: Decide where to return user to
     # Return user to the menu
+    return HttpResponseRedirect(reverse("index"))
+
+def orders(request):
+    orders = {}
+    counter = 0
+    customers = Customer.objects.all()
+    for customer in customers:
+        customersOrders = Order.objects.filter(customerID=customer.pk)
+        for i in range(0, customer.orderNumber):
+            oneOrder = customersOrders.filter(orderNumber=i)
+
+
+
+    # TODO: Return proper orders page
     return HttpResponseRedirect(reverse("index"))
