@@ -247,7 +247,7 @@ def orders(request):
 
     # Add each of the orders to the list
     restaurant = Restaurant.objects.get(name='Pinocchios')
-    for i in range(0, restaurant.orderNumber):
+    for i in range(1, restaurant.orderNumber):
         # OrderGetter functions like the Cart class in cart.py
         order = OrderGetter(i)
         if order.getNumItems() > 0:

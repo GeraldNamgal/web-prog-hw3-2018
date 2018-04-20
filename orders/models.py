@@ -25,17 +25,17 @@ class Topping(models.Model):
 
 class Customer(models.Model):
     customer = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='customers')
-    orderNumber = models.IntegerField(default=0)
+    orderNumber = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'{self.customer.username}: has made {self.orderNumber} order(s)'
+        return f'{self.customer.username}: is on his/her {self.orderNumber} order'
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=64)
-    orderNumber = models.IntegerField(default=0)
+    orderNumber = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'{self.name}: has made {self.orderNumber} order(s)'
+        return f'{self.name}: is on its {self.orderNumber} order'
 
 class Order(models.Model):
     customerID = models.IntegerField()
