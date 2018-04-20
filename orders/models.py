@@ -30,9 +30,18 @@ class Customer(models.Model):
     def __str__(self):
         return f'{self.customer.username}: has made {self.orderNumber} order(s)'
 
+class Restaurant(models.Model):
+    name = models.CharField(max_length=64)
+    orderNumber = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.name}: has made {self.orderNumber} order(s)'
+
 class Order(models.Model):
     customerID = models.IntegerField()
-    orderNumber = models.IntegerField()
+    customerName = models.CharField(max_length=64)
+    orderNumberCust = models.IntegerField()
+    orderNumberRest = models.IntegerField(null=True, blank=True)
     itemID = models.IntegerField()
     itemName = models.CharField(max_length=64)
     itemCategory = models.CharField(max_length=64)

@@ -6,9 +6,10 @@ from django.urls import reverse
 from django.apps import apps
 from .cart import Cart
 from datetime import datetime
+from .orderGetter import OrderGetter
 
 # Import models
-from .models import Item, Topping, Customer, Order, Category
+from .models import Item, Topping, Customer, Order, Category, Restaurant
 
 def index(request):
     # If user is not signed in
@@ -205,14 +206,20 @@ def confirm(request):
     return render(request, 'orders/cart.html', context)
 
 def checkout(request):
-    # Increment the customer's order number and add a timestamp to their order
+    # Add a timestamp to the customer's order and also add the restaurant's order number
     customer = Customer.objects.get(pk=request.user.id)
-    customersOrders = Order.objects.filter(customerID=customer.pk, orderNumber=customer.orderNumber)
+    customersOrders = Order.objects.filter(customerID=customer.pk, orderNumberCust=customer.orderNumber)
     for order in customersOrders:
         order.dateTime = datetime.now()
+        order.orderNumberRest = Restaurant.objects.get(name='Pinocchios').orderNumber
         order.save()
+
+    # Increment the customer and restaurant's order numbers
     customer.orderNumber += 1
     customer.save()
+    restaurant = Restaurant.objects.get(name='Pinocchios')
+    restaurant.orderNumber += 1
+    restaurant.save()
 
     # Return user to the menu
     return HttpResponseRedirect(reverse("index"))
@@ -238,20 +245,19 @@ def orders(request):
     # The orders list is essentially a list of carts that were checked out
     orders = []
 
-    # Add each of the customer's previous orders (i.e., 'carts') to the list
-    customers = Customer.objects.all()
-    for customer in customers:
-        for i in range(0, customer.orderNumber):
-            cart = Cart(customer, i)
+    # Add each of the orders to the list
+    restaurant = Restaurant.objects.get(name='Pinocchios')
+    for i in range(0, restaurant.orderNumber):
+        # OrderGetter functions like the Cart class in cart.py
+        order = OrderGetter(i)
+        if order.getNumItems() > 0:
+            # Create tuple list; each tuple like (item, item's toppings (if any), item's extras)
+            orderItems = []
+            for selection in order.selections:
+                orderItems.append((selection, order.getToppings(selection.pk), order.getExtras(selection.pk)))
 
-            if cart.getNumItems() > 0:
-                # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
-                cartItems = []
-                for selection in cart.selections:
-                    cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
-
-                # Orders is a list of tuples with cart information
-                orders.append((cart, cartItems))
+            # Orders is a list of tuples with cart/order information
+            orders.append((order, orderItems))
 
     context = {
         'orders': orders

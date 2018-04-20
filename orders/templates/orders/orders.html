@@ -15,10 +15,20 @@
 
     <br>
 
+    {% if not orders %}
+        <div class="group">There are no orders yet.</div>
+    {% endif %}
+
     {% for order in orders %}
-        <!-- {% if order.0.getNumItems != 0 %} -->
+        {% if order.0.getNumItems != 0 %}
             <br>
             <div class="group">
+                Order#: {{ order.0.selections.0.orderNumberRest }} |
+                Customer: {{ order.0.selections.0.customerName }} |
+                Checked out: {{ order.0.selections.0.dateTime }}
+
+                <br><br>
+
                 <table>
                     {% for selection, toppings, extras in order.1 %}
                         <tr>
@@ -27,9 +37,6 @@
                             <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
                             <td>@${{ selection.price }} each</td>
                             <td>= ${{ selection.subtotal }}</td>
-                            {% if cartContents %}
-                                <td><a href="{% url 'removeFromCart' selection.pk %}">REMOVE</a></td>
-                            {% endif %}
                         </tr>
 
                         <!-- List toppings (if any) for pizza items -->
@@ -40,9 +47,6 @@
                                 <td>&#x25AA; {{ topping }}</td>
                                 <td></td>
                                 <td></td>
-                                {% if cartContents %}
-                                    <td></td>
-                                {% endif %}
                             </tr>
                         {% endfor %}
 
@@ -54,9 +58,6 @@
                                 <td></td>
                                 <td>+ {{ extra }} $0.50</td>
                                 <td></td>
-                                {% if cartContents %}
-                                    <td></td>
-                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}
@@ -73,9 +74,6 @@
                         <td></td>
                         <td></td>
                         <td># ITEMS: {{ order.0.getNumItems }}</td>
-                        {% if cartContents %}
-                            <td></td>
-                        {% endif %}
                     </tr>
 
                     <!-- Display total -->
@@ -85,36 +83,9 @@
                         <td></td>
                         <td></td>
                         <td>TOTAL = ${{ order.0.getTotalPrice }}</td>
-                        {% if cartContents %}
-                            <td></td>
-                        {% endif %}
                     </tr>
-
-                    {% if cartContents %}
-                        <!-- Insert a blank row -->
-                        <tr>
-                            <td><br></td>
-                        </tr>
-
-                        <!-- Add the Check Out button -->
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <form action="{% url 'confirm' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="numItems" value="{{ order.0.getNumItems }}">
-                                    <input type="hidden" name="total" value="{{ order.0.getTotalPrice }}">
-                                    <input class="buttonAtBottom" type="submit" value="Check Out">
-                                </form>
-                            </td>
-                        </tr>
-                    {% endif %}
                 </table>
             </div>
-        <!-- {% endif %} -->
+        {% endif %}
     {% endfor %}
 {% endblock %}
