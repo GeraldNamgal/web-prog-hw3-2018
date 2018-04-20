@@ -33,3 +33,8 @@ checking whether a deletion or addition in one happened in one and/or the other
 and handles the table consequences and such of situations like these for me. That
 is, the "ManyToManyField" will allow me to associate a topping with multiple
 pizzas and each pizza with multiple toppings.
+
+There shouldn't be much data in the database when you begin. I don't know how you
+plan to grade it so to err on the side of caution, I left it up to you to add users
+(besides the superuser) and orders to your preference. Hopefully this makes grading
+easier.

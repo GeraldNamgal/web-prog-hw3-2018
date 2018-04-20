@@ -242,7 +242,7 @@ def cartContents(request):
     return render(request, 'orders/cart.html', context)
 
 def orders(request):
-    # The orders list is essentially a list of carts that were checked out
+    # The orders list is essentially a list of previous carts that were checked out
     orders = []
 
     # Add each of the orders to the list
@@ -264,3 +264,37 @@ def orders(request):
     }
 
     return render(request, 'orders/orders.html', context)
+
+def orderComplete(request):
+    # Get the order
+    order = OrderGetter(request.POST.get('orderNumberRest'))
+
+    # Mark the order as complete
+    for selection in order.selections:
+        selection.complete = True
+        selection.save()
+
+    return HttpResponseRedirect(reverse("orders"))
+
+def myOrders(request):
+    # The orders list is essentially a list of previous carts that were checked out
+    orders = []
+
+    # Add each of the customer's orders to the list
+    customer = Customer.objects.get(pk=request.user.id)
+    for i in range(1, customer.orderNumber):
+        order = Cart(customer, i)
+        if order.getNumItems() > 0:
+            # Create tuple list; each tuple like (item, item's toppings (if any), item's extras)
+            orderItems = []
+            for selection in order.selections:
+                orderItems.append((selection, order.getToppings(selection.pk), order.getExtras(selection.pk)))
+
+            # Orders is a list of tuples with cart/order information
+            orders.append((order, orderItems))
+
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'orders/myOrders.html', context)

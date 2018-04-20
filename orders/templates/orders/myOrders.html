@@ -1,14 +1,14 @@
 {% extends "orders/base.html" %}
 
 {% block title %}
-    Orders
+    My Orders
 {% endblock %}
 
 {% block body %}
     <div class="group">
-        <h1>Orders</h1>
+        <h1>My Orders</h1>
         <ul>
-            <li class="liNav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the MENU.</li>
+            <li class="liNav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the MENU and continue ordering.</li>
             <li class="liNav">Click<a href="{% url 'cartContents' %}">&nbsp;HERE&nbsp;</a>to see your CART and/or CHECK OUT.</li>
             <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to LOG OUT.</li>
         </ul>
@@ -17,15 +17,14 @@
     <br>
 
     {% if not orders %}
-        <div class="group">There are no orders yet.</div>
+        <div class="group">You have not made any orders yet.</div>
     {% endif %}
 
     {% for order in orders %}
         {% if order.0.getNumItems != 0 %}
             <br>
             <div class="group">
-                Order#: {{ order.0.selections.0.orderNumberRest }} |
-                Customer: {{ order.0.selections.0.customerName }} |
+                Order#: {{ order.0.selections.0.orderNumberCust }} |
                 Checked out: {{ order.0.selections.0.dateTime }}
 
                 <br><br>
@@ -91,11 +90,7 @@
                 {% if order.0.selections.0.complete %}
                     <div>Status: COMPLETED</div>
                 {% else %}
-                    <form action="{% url 'orderComplete' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="orderNumberRest" value="{{ order.0.selections.0.orderNumberRest }}">
-                        <input type="submit" value="Mark as Complete">
-                    </form>
+                    <div>Status: PENDING</div>
                 {% endif %}
             </div>
         {% endif %}

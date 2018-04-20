@@ -50,6 +50,7 @@ class Order(models.Model):
     quantity = models.IntegerField(default=1)
     subtotal = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
     dateTime = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    complete = models.BooleanField(default=False)
 
 class PizzaOrder(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, primary_key=True, related_name='pizzaOrders')
