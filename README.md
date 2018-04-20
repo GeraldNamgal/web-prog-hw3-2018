@@ -33,7 +33,16 @@ For items that only have one price (e.g. only have one size), I use the "priceLa
 field for the price, which is why I made the "priceSmall" field in the Item model
 optional since a few items only have one price. I would explain to administrators
 that when adding items to the menu for items with one price, leave the "priceSmall"
-field blank and put the price for such items in the "priceLarge" field.
+field blank and put the price for such items in the "priceLarge" field. I would also
+tell them that the way the database is set up doesn't necessarily reflect the logic
+of how it's displayed on the website. For example, the orders table in the database
+has an order instance for each item purchased, not each order. I grouped items in
+the database with the same 'orderNumber', a field I created, in order to get at an
+actual order in the real-world sense of the word. Also, I defaulted order numbers in
+the database to 1. So if a restaurant and customer's order number is 1 and 2
+respectively, then they made 0 and 1 order respectively. I made a str function for
+these models that hopefully explains this in English, which can be seen in Django
+Administration.
 
 I defined my Special Pizza to be one with 4 or 5 toppings.
 
