@@ -8,15 +8,15 @@
     <div class="group">
         <h1>Orders</h1>
         <ul>
-            <li class="liNav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu.</li>
-            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</li>
+            <li class="liNav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the MENU.</li>
+            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to LOG OUT.</li>
         </ul>
     </div>
 
     <br>
 
     {% for order in orders %}
-        {% if order.0.getNumItems != 0 %}
+        <!-- {% if order.0.getNumItems != 0 %} -->
             <br>
             <div class="group">
                 <table>
@@ -115,6 +115,6 @@
                     {% endif %}
                 </table>
             </div>
-        {% endif %}
+        <!-- {% endif %} -->
     {% endfor %}
 {% endblock %}

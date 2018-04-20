@@ -117,8 +117,8 @@
         <br>
 
         <div class="group">
-            <div class="nav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the Menu and continue ordering.</div>
-            <div class="nav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</div>
+            <div class="nav">Click<a href="{% url 'index' %}">&nbsp;HERE&nbsp;</a>to return to the MENU and continue ordering.</div>
+            <div class="nav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to LOG OUT.</div>
         </div>
     {% endif %}
 
@@ -126,12 +126,10 @@
         <br>
 
         <div class="group">
-            <div>
-                Please Confirm that your selections above are correct (this will complete your order).<br>
-                Click Cancel to return to your Shopping Cart.
+            <div style="margin-bottom: 10px;">
+                Please confirm that your selections above are correct (this will complete your order).<br>
+                Click Cancel to return to your shopping cart.
             </div>
-
-            <br>
 
             <form class="buttonAtBottom" id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
                 {% csrf_token %}

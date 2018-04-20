@@ -10,10 +10,10 @@
 
         <ul>
             {% if request.user.is_superuser %}
-                <li class="liNav">Click<a href="{% url 'orders' %}">&nbsp;HERE&nbsp;</a>to see what Orders have been placed.</li>
+                <li class="liNav">Click<a href="{% url 'orders' %}">&nbsp;HERE&nbsp;</a>to see what ORDERS have been placed.</li>
             {% endif %}
-            <li class="liNav">Click<a href="{% url 'cartContents' %}">&nbsp;HERE&nbsp;</a>to see your Cart and/or Check Out.</li>
-            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to Log Out.</li>
+            <li class="liNav">Click<a href="{% url 'cartContents' %}">&nbsp;HERE&nbsp;</a>to see your CART and/or CHECK OUT.</li>
+            <li class="liNav">Click<a href="{% url 'logout' %}">&nbsp;HERE&nbsp;</a>to LOG OUT.</li>
         </ul>
 
         <div>Click on a Menu item below to add it to your Cart.</div>

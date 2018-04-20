@@ -244,13 +244,14 @@ def orders(request):
         for i in range(0, customer.orderNumber):
             cart = Cart(customer, i)
 
-            # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
-            cartItems = []
-            for selection in cart.selections:
-                cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
+            if cart.getNumItems() > 0:
+                # Create tuple list; each tuple like (user's selection, selection's toppings (if any), selection's extras)
+                cartItems = []
+                for selection in cart.selections:
+                    cartItems.append((selection, cart.getToppings(selection.pk), cart.getExtras(selection.pk)))
 
-            # Orders is a list of tuples with cart information
-            orders.append((cart, cartItems))
+                # Orders is a list of tuples with cart information
+                orders.append((cart, cartItems))
 
     context = {
         'orders': orders
