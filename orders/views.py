@@ -235,10 +235,10 @@ def cartContents(request):
     return render(request, 'orders/cart.html', context)
 
 def orders(request):
-    # The orders is essentially a list of carts that were checked out
+    # The orders list is essentially a list of carts that were checked out
     orders = []
 
-    # Put each of the customer's orders (i.e., 'carts') in the list
+    # Add each of the customer's previous orders (i.e., 'carts') to the list
     customers = Customer.objects.all()
     for customer in customers:
         for i in range(0, customer.orderNumber):
@@ -251,9 +251,6 @@ def orders(request):
 
             # Orders is a list of tuples with cart information
             orders.append((cart, cartItems))
-
-    # DEBUG:
-    print(orders)
 
     context = {
         'orders': orders
