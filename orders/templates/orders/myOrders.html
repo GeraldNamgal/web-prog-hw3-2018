@@ -1,29 +1,29 @@
-{% extends "orders/base.html" %}
+{% extends 'orders/base.html' %}
 
 {% block title %}
     My Orders
 {% endblock %}
 
 {% block body %}
-    <div class="group">
+    <div class='group'>
         <h1>My Orders</h1>
         <ul>
-            <li class="liNav"><a href="{% url 'index' %}">MENU</a></li>
-            <li class="liNav"><a href="{% url 'cartContents' %}">CART</a></li>
-            <li class="liNav"><a href="{% url 'logout' %}">LOG OUT</a></li>
+            <li class='liNav'><a href="{% url 'index' %}">MENU</a></li>
+            <li class='liNav'><a href="{% url 'cartContents' %}">CART</a></li>
+            <li class='liNav'><a href="{% url 'logout' %}">LOG OUT</a></li>
         </ul>
     </div>
 
     <br>
 
     {% if not orders %}
-        <div class="group">You have not made any orders yet.</div>
+        <div class='group'>You have not made any orders yet.</div>
     {% endif %}
 
     {% for order in orders %}
         {% if order.0.getNumItems != 0 %}
             <br>
-            <div class="group">
+            <div class='group'>
                 Order#: {{ order.0.selections.0.orderNumberCust }} |
                 Checked out: {{ order.0.selections.0.dateTime }}
 
@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{ selection.quantity }}</td>
                             <td>x {{ selection.size }}</td>
-                            <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
+                            <td>'{{ selection.itemName }}' ({{ selection.itemCategory }})</td>
                             <td>@${{ selection.price }} each</td>
                             <td>= ${{ selection.subtotal }}</td>
                         </tr>

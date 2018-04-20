@@ -1,22 +1,22 @@
-{% extends "orders/base.html" %}
+{% extends 'orders/base.html' %}
 
 {% block title %}
     Pizza
 {% endblock %}
 
 {% block body %}
-    <div class="group">
+    <div class='group'>
         <h3>Hello, {{ user.username }}</h3>
 
         <ul>
-            <li class="liNav"><a href="{% url 'cartContents' %}">&nbsp;CART&nbsp;</a></li>
+            <li class='liNav'><a href="{% url 'cartContents' %}">&nbsp;CART&nbsp;</a></li>
             {% if request.user.is_superuser %}
-                <li class="liNav"><a href="{% url 'orders' %}">&nbsp;RESTAURANT ORDERS&nbsp;</a></li>
-                <li class="liNav"><a href="{% url 'myOrders' %}">&nbsp;MY ORDERS&nbsp;</a></li>
+                <li class='liNav'><a href="{% url 'orders' %}">&nbsp;RESTAURANT ORDERS&nbsp;</a></li>
+                <li class='liNav'><a href="{% url 'myOrders' %}">&nbsp;MY ORDERS&nbsp;</a></li>
             {% else %}
-                <li class="liNav"><a href="{% url 'myOrders' %}">&nbsp;MY ORDERS&nbsp;</a></li>
+                <li class='liNav'><a href="{% url 'myOrders' %}">&nbsp;MY ORDERS&nbsp;</a></li>
             {% endif %}
-            <li class="liNav"><a href="{% url 'logout' %}">&nbsp;LOG OUT&nbsp;</a></li>
+            <li class='liNav'><a href="{% url 'logout' %}">&nbsp;LOG OUT&nbsp;</a></li>
         </ul>
 
         <div>Click on a Menu item below to add it to your Cart.</div>
@@ -24,8 +24,8 @@
 
     <br>
 
-    <div class="group">
-        <h1 style="text-decoration:underline;">Our Menu</h1>
+    <div class='group'>
+        <h1 style='text-decoration:underline;'>Our Menu</h1>
 
         <br>
 
@@ -66,7 +66,7 @@
         <br>
 
         <h2>Toppings</h2>
-        <ul id="toppings">
+        <ul id='toppings'>
             {% for topping in toppings %}
                 <li>{{ topping.name }}</li>
             {% endfor %}
@@ -82,7 +82,7 @@
                 <th>Large</th>
             </tr>
             {% for sub in subs %}
-                {% if sub.name == "Steak + Cheese" %}
+                {% if sub.name == 'Steak + Cheese' %}
                     <tr>
                         <td><a href="{% url 'itemDetails' sub.id %}">{{ sub.name }}</a></td>
                         <td>${{ sub.priceSmall }}</td>

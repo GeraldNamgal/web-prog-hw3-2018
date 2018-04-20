@@ -1,7 +1,7 @@
-{% extends "orders/itemDetails.html" %}
+{% extends 'orders/itemDetails.html' %}
 
 {% block extras %}
-    {% if item.name != "Cheese" %}
+    {% if item.name != 'Cheese' %}
         <table>
             <tr>
                 <td>Topping/Item</td>
@@ -9,12 +9,12 @@
             </tr>
             <tr>
                 <td>(Choose {{ toppingLimit }}):</td>
-                <td><input type="checkbox" name="{{ toppings.0.name }}" value="yes">{{ toppings.0.name }}</td>
+                <td><input type='checkbox' name='{{ toppings.0.name }}' value='yes'>{{ toppings.0.name }}</td>
             </tr>
-            {% for topping in toppings|slice:"1:" %}
+            {% for topping in toppings|slice:'1:' %}
                 <tr>
                     <td></td>
-                    <td><input type="checkbox" name="{{ topping.name }}" value="yes">{{ topping.name }}</td>
+                    <td><input type='checkbox' name='{{ topping.name }}' value='yes'>{{ topping.name }}</td>
                 </tr>
             {% endfor %}
         </table>

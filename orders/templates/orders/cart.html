@@ -1,11 +1,11 @@
-{% extends "orders/base.html" %}
+{% extends 'orders/base.html' %}
 
 {% block title %}
     Cart
 {% endblock %}
 
 {% block body %}
-    <div class="group">
+    <div class='group'>
         {% if confirm %}
             <h1>Confirm</h1>
         {% else %}
@@ -20,7 +20,7 @@
                     <tr>
                         <td>{{ selection.quantity }}</td>
                         <td>x {{ selection.size }}</td>
-                        <td>"{{ selection.itemName }}" ({{ selection.itemCategory }})</td>
+                        <td>'{{ selection.itemName }}' ({{ selection.itemCategory }})</td>
                         <td>@${{ selection.price }} each</td>
                         <td>= ${{ selection.subtotal }}</td>
                         {% if cartContents %}
@@ -100,11 +100,11 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <form action="{% url 'confirm' %}" method="post">
+                            <form action="{% url 'confirm' %}" method='post'>
                                 {% csrf_token %}
-                                <input type="hidden" name="numItems" value="{{ cart.getNumItems }}">
-                                <input type="hidden" name="total" value="{{ cart.getTotalPrice }}">
-                                <input class="buttonAtBottom" type="submit" value="Check Out">
+                                <input type='hidden' name='numItems' value='{{ cart.getNumItems }}'>
+                                <input type='hidden' name='total' value='{{ cart.getTotalPrice }}'>
+                                <input class='buttonAtBottom' type='submit' value='Check Out'>
                             </form>
                         </td>
                     </tr>
@@ -116,10 +116,10 @@
     {% if cartContents %}
         <br>
 
-        <div class="group">
+        <div class='group'>
             <ul>
-                <li class="liNav"><a href="{% url 'index' %}">MENU</a></li>
-                <li class="liNav"><a href="{% url 'logout' %}">LOG OUT</a></li>
+                <li class='liNav'><a href="{% url 'index' %}">MENU</a></li>
+                <li class='liNav'><a href="{% url 'logout' %}">LOG OUT</a></li>
             </ul>
         </div>
     {% endif %}
@@ -127,20 +127,20 @@
     {% if confirm %}
         <br>
 
-        <div class="group">
-            <div style="margin-bottom: 10px;">
+        <div class='group'>
+            <div style='margin-bottom: 10px;'>
                 Please confirm that your selections above are correct (this will complete your order).<br>
                 Click Cancel to return to your shopping cart.
             </div>
 
-            <form class="buttonAtBottom" id="checkoutConfirm" action="{% url 'checkout' %}" method="post">
+            <form class='buttonAtBottom' id='checkoutConfirm' action="{% url 'checkout' %}" method='post'>
                 {% csrf_token %}
-                <input type="submit" value="Confirm">
+                <input type='submit' value='Confirm'>
             </form>
 
-            <form class="buttonAtBottom" id="checkoutCancel" action="{% url 'cartContents' %}" method="post">
+            <form class='buttonAtBottom' id='checkoutCancel' action="{% url 'cartContents' %}" method='post'>
                 {% csrf_token %}
-                <input type="submit" value="Cancel">
+                <input type='submit' value='Cancel'>
             </form>
         </div>
     {% endif %}

@@ -1,14 +1,14 @@
-{% extends "orders/base.html" %}
+{% extends 'orders/base.html' %}
 
 {% block title %}
     Item Details
 {% endblock %}
 
 {% block body %}
-    <div class="group">
+    <div class='group'>
         <h1>{{ item.category }}: {{ item.name }}</h1>
 
-        <form action='{% url 'addToCart' item.pk %}' method="post">
+        <form action='{% url 'addToCart' item.pk %}' method='post'>
             {% csrf_token %}
 
             <!-- Determine pricing (some items only have one price) -->
@@ -35,17 +35,17 @@
 
             <br><br>
 
-            <input class="buttonAtBottom" type='submit' value='Add to Cart'>
+            <input class='buttonAtBottom' type='submit' value='Add to Cart'>
         </form>
     </div>
 
     <br>
 
-    <div class="group">
+    <div class='group'>
         <ul>
-            <li class="liNav"><a href="{% url 'index' %}">MENU</a></li>
-            <li class="liNav"><a href="{% url 'cartContents' %}">CART</a></li>
-            <li class="liNav"><a href="{% url 'logout' %}">LOG OUT</a></li>
+            <li class='liNav'><a href="{% url 'index' %}">MENU</a></li>
+            <li class='liNav'><a href="{% url 'cartContents' %}">CART</a></li>
+            <li class='liNav'><a href="{% url 'logout' %}">LOG OUT</a></li>
         </ul>
     </div>
 {% endblock %}

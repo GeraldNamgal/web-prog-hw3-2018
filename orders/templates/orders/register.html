@@ -1,11 +1,11 @@
-{% extends "orders/base.html" %}
+{% extends 'orders/base.html' %}
 
 {% block title %}
     Register
 {% endblock %}
 
 {% block body %}
-    <div class="group">
+    <div class='group'>
         <h1>Register</h1>
 
         {% if message %}
@@ -14,14 +14,14 @@
             </div>
         {% endif %}
 
-        <form class="needsMargin" action="{% url 'register' %}" method="post">
+        <form class='needsMargin' action="{% url 'register' %}" method='post'>
             {% csrf_token %}
-            <input name="firstName" type="text" placeholder="First Name"/>
-            <input name="lastName" type="text" placeholder="Last Name"/>
-            <input name="emailAddress" type="email" placeholder="Email"/><br>
-            <input name="username" type="text" placeholder="Username"/ required>
-            <input name="password" type="password" placeholder="Password"/><br>
-            <input class="needsMargin" type="submit" value="Register"/>
+            <input name='firstName' type='text' placeholder='First Name'/>
+            <input name='lastName' type='text' placeholder='Last Name'/>
+            <input name='emailAddress' type='email' placeholder='Email'/><br>
+            <input name='username' type='text' placeholder='Username'/ required>
+            <input name='password' type='password' placeholder='Password'/><br>
+            <input class='needsMargin' type='submit' value='Register'/>
         </form>
 
         Click <a href="{% url 'login' %}">HERE</a> to LOG IN.

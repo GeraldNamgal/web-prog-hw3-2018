@@ -52,3 +52,5 @@ There shouldn't be much data in the database when you begin. I don't know how yo
 plan to grade it so to err on the side of caution, I left it up to you to add users
 (besides the superuser) and orders to your preference. Hopefully this makes grading
 easier.
+
+I used Google Chrome mostly for testing and debugging.

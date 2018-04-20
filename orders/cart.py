@@ -24,7 +24,7 @@ class Cart:
         subtotal = Decimal(quantity) * price
 
         # If item is a sub, change subtotal for every extra selected
-        if item.category.name == "Subs":
+        if item.category.name == 'Subs':
             if subExtras['mushrooms'] == 'yes':
                 subtotal += Decimal(0.50) * Decimal(quantity)
             if subExtras['greenPeppers'] == 'yes':
@@ -62,8 +62,6 @@ class Cart:
             if subExtras['extraCheese'] == 'yes':
                 subSelection.extraCheese = True
             subSelection.save()
-
-    # TODO: Make an update method?
 
     def remove(self, selectionID):
         # If item is in cart, delete it

@@ -1,14 +1,14 @@
-{% extends "orders/itemDetails.html" %}
+{% extends 'orders/itemDetails.html' %}
 
 {% block extras %}
     {% if item.name == 'Steak' or item.name == 'Steak + Cheese' %}
         <br>
-        <input type="checkbox" name="mushrooms" value="yes"> Mushrooms (+$0.50)<br>
-        <input type="checkbox" name="greenPeppers" value="yes"> Green Peppers (+$0.50)<br>
-        <input type="checkbox" name="onions" value="yes"> Onions (+$0.50)<br>
-        <input type="checkbox" name="extraCheese" value="yes"> Extra Cheese (+$0.50)
+        <input type='checkbox' name='mushrooms' value='yes'> Mushrooms (+$0.50)<br>
+        <input type='checkbox' name='greenPeppers' value='yes'> Green Peppers (+$0.50)<br>
+        <input type='checkbox' name='onions' value='yes'> Onions (+$0.50)<br>
+        <input type='checkbox' name='extraCheese' value='yes'> Extra Cheese (+$0.50)
     {% else %}
         <br>
-        <input type="checkbox" name="extraCheese" value="yes"> Extra Cheese (+$0.50)
+        <input type='checkbox' name='extraCheese' value='yes'> Extra Cheese (+$0.50)
     {% endif %}
 {% endblock %}
