@@ -39,7 +39,7 @@ of how it's displayed on the website. For example, each row in the Order table i
 the database represents a selection the user made, not an order (an order can have
 multiple selections). I realized late in the development process that Selection,
 Suborder, or some similar name might have been a better name than Order for the Order
-model; likewise for the PizzaOrder and SubSelection models. Nonetheless, I grouped
+model; likewise for the PizzaOrder and SubOrder models. Nonetheless, I grouped
 rows in the database with the same 'orderNumber', a field I created, in order to get
 at an actual order in the real-world sense of the word. Also, I defaulted order number
 counts in the database to 1 when a new customer or restaurant is created. So if a
